@@ -1,0 +1,56 @@
+<?php 
+    include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/header_footer.php');
+?>
+<?php 
+    main_header();
+    session_start();
+    $_SESSION["user_data"] = NULL;
+?>
+<div class="account-container">
+	
+	<div class="content clearfix">
+		
+			<h1>Login</h1>		
+			
+			<div class="login-fields">
+				
+				<p>Please provide your details</p>
+				
+				<div class="field">
+					<label for="username">Username</label>
+					<input type="text" id="username" name="username" value="" placeholder="Username" class="login username-field" />
+				</div> <!-- /field -->	
+				
+				<div class="field">
+					<label for="password">Password:</label>
+					<input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field"/>
+				</div> <!-- /password -->
+				
+			</div> <!-- /login-fields -->
+			
+			<div class="login-actions">
+				
+				<!-- <span class="login-checkbox">
+					<input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" />
+					<label class="choice" for="Field">Keep me signed in</label>
+				</span>
+									 -->
+				<button class="button btn btn-success btn-large" id="login">Login</button>
+				
+			</div> <!-- .actions -->
+			
+		
+	</div> <!-- /content -->
+	
+</div> <!-- /account-container -->
+
+
+<!-- 
+<div class="login-extra">
+	<a href="#">Reset Password</a>
+</div>  -->
+<!-- /login-extra -->
+<?php 
+    main_footer ();
+?>
+
