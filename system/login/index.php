@@ -2,7 +2,7 @@
     include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/header_footer.php');
 ?>
 <?php 
-    main_header();
+    // main_header();
     session_start();
     $_SESSION["user_data"] = NULL;
 ?>

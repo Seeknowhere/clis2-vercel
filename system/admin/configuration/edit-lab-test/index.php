@@ -4,7 +4,7 @@
 ?>
 <?php 
     main_header();
-    
+
     @$get_clinic_test_single = $query->get_clinic_test_single($_GET['id']);
 
 
@@ -142,3 +142,4 @@
     main_footer ();
 ?>
 
+                          

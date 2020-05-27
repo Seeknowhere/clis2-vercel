@@ -191,13 +191,13 @@
                       <th> LAB TEST </th>
                       <th> COST </th>
                       <th> QUANTITY </th>
-                      <th> INCOME </th>
+                      <th> AMOUNT </th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php if(empty($get_total_sales_daily)) {?>
                       <tr>
-                        <td colspan="6"> NO TOTAL SALES TODAY</td>
+                        <td colspan="6"> UNAVAILABLE TEST TODAY</td>
                       </tr>
                     <?php } else {?>
                       <?php foreach($get_total_sales_daily as $key => $item) {?>

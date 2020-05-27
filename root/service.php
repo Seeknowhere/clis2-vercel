@@ -12,12 +12,11 @@ try{
     $query->Username = isset($_POST['username']) ? $_POST['username'] : NULL;
     $query->Password = isset($_POST['password']) ? $_POST['password'] : NULL;
 
+    
     if($from=='login'){
-        
         if($action=='login-attempt'){
             echo json_encode($query->login());
         }
-
     }
 
 
@@ -28,4 +27,4 @@ try{
 
 
 
-?>
+?>  

@@ -439,35 +439,7 @@ class query{
 
         $lab_transaction_request = $this->fetch_all($lab_transaction_request);
 
-        foreach($lab_test_template as $item){
-
-            foreach($lab_transaction_request as $item2){
-                
-                if($item->Lab_test_id == $item2->Lab_test_id){
-                    $query = $this->db->query(
-                        "INSERT INTO Lab_test_template(
-                                Lab_transaction_id, 
-                                Lab_test_id, 
-                                Label, 
-                                Coordinate,
-                                Datetime_created 
-                                ) 
-                            VALUES(
-                                $item2->ID,
-                                '$item->Lab_test_id', 
-                                '$item->Label', 
-                                '$item->Coordinate',
-                                now()
-                                )");
-                }
-
-                if(!$query){
-                    return $this->db->error;
-                }
-
-            }
-           
-        }
+        
 
         foreach($lab_transaction_request as $item){
             $query = $this->db->query(

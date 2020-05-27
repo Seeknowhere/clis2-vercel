@@ -139,14 +139,14 @@ class query{
     public function get_clinic_test_single($id){
 
         $query = $this->db->query("SELECT * FROM 
-        Lab_test 
-        WHERE Lab_test.ID='$id'");
+        Lab_test");
 
         if(!$query){
             return $this->db->error;
         }
-
-        return $this->first_row($query);
+        $data = $query->fetch_assoc();
+        return $data;
+        // return $query->fetch_assoc($query);
 
     }
 

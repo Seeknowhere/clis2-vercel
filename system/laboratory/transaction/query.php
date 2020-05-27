@@ -286,8 +286,8 @@ class query{
 
         $user = $_SESSION['user_data'];
         
-        // $query = $this->db->query("UPDATE Lab_transaction SET Lab_transaction_status_id=4, Datetime_pickup=now()
-        // WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_transaction`.Patient_id='$this->Patient_id'");
+        $query = $this->db->query("UPDATE Lab_transaction SET Lab_transaction_status_id=4, Datetime_pickup=now()
+        WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_transaction`.Patient_id='$this->Patient_id'");
 
         $query = $this->db->query("SELECT 
         Lab_test.Abbreviation,
@@ -304,25 +304,25 @@ class query{
             return $this->db->error;
         }
 
-        // $query_transaction = $this->db->query(
-        //     "INSERT INTO User_transaction(
-        //             Lab_transaction_id,
-        //             Lab_transaction_status_id, 
-        //             Patient_id, 
-        //             User_account_id, 
-        //             Datetime_created
-        //             ) 
-        //         VALUES(
-        //             $this->Lab_transaction_id,
-        //             4,
-        //             $this->Patient_id,
-        //             $user->ID,
-        //             now() 
-        //             )");
+        $query_transaction = $this->db->query(
+            "INSERT INTO User_transaction(
+                    Lab_transaction_id,
+                    Lab_transaction_status_id, 
+                    Patient_id, 
+                    User_account_id, 
+                    Datetime_created
+                    ) 
+                VALUES(
+                    $this->Lab_transaction_id,
+                    4,
+                    $this->Patient_id,
+                    $user->ID,
+                    now() 
+                    )");
 
-        // if(!$query_transaction){
-        //     return $this->db->error;
-        // }
+        if(!$query_transaction){
+            return $this->db->error;
+        }
 
         return $this->first_row($query);
 

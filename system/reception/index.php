@@ -319,6 +319,9 @@
                         <thead>
                           <tr>
                             <th> Patient name </th>
+                            <th> Gender </th>
+                            <th> Age </th>
+                            <th> Date of birth </th>
                             <th class="td-actions"> </th>
                           </tr>
                         </thead>

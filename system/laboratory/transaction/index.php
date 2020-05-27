@@ -32,9 +32,9 @@
               <div class="widget big-stats-container">
                 <div class="widget-content">
                   <div id="big_stats" class="cf">
-                    <div class="stat stat-lab stat-lab-active" data-id="1"> LAB REQUEST <i class="fa fa-paper-plane"></i> <span class="value"><?php echo $count_request_lab_transaction?></span> </div>
+                    <div class="stat stat-lab " data-id="1"> LAB REQUEST <i class="fa fa-paper-plane"></i> <span class="value"><?php echo $count_request_lab_transaction?></span> </div>
                     <!-- .stat -->
-                    <div class="stat stat-lab" data-id="2"> LAB ONGOING <i class="fas fa-sync"></i> <span class="value"><?php echo $count_ongoing_lab_transaction?></span> </div>
+                    <div class="stat stat-lab stat-lab-active" data-id="2"> LAB ONGOING <i class="fas fa-sync"></i> <span class="value"><?php echo $count_ongoing_lab_transaction?></span> </div>
                     <!-- .stat -->
                     <div class="stat stat-lab" data-id="3"> LAB RELEASE <i class="icon-bullhorn"></i> <span class="value"><?php echo $count_release_lab_transaction?></span> </div>
                     <!-- .stat --> 
@@ -56,7 +56,7 @@
 	  				</div> <!-- /widget-header -->
 					
 					<div class="widget-content">
-          <table class="table table-striped table-bordered action-table" id="lab-request-patient" >
+          <table class="table table-striped table-bordered action-table" id="lab-request-patient" hidden>
               <thead>
                 <tr>
                   <th> # </th>
@@ -95,7 +95,7 @@
               </tbody>
             </table>
 
-            <table class="table table-striped table-bordered action-table" id="lab-ongoing-patient" hidden>
+            <table class="table table-striped table-bordered action-table" id="lab-ongoing-patient">
               <thead>
                 <tr>
                   <th> # </th>
@@ -245,8 +245,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                <button class="btn btn-primary releasing_patient_update_lab_template_btn">Submit</button>
+              
               </div>
             </div>
             
@@ -313,76 +312,4 @@
 <!-- /main -->
 <?php 
     main_footer ();
-?>
-
-<script>
-    // $(document).ready(function(){
-    //   var spreadsheet = new GC.Spread.Sheets.Workbook(document.getElementById("ss"));
-    //   var activeSheet = spreadsheet.getActiveSheet();
-    //   // var printInfo = activeSheet.printInfo();
-    //   // var instance = new GC.Spread.Sheets.Print.PrintInfo();
-    //   // activeSheet.options.rowHeaderVisible = false; 
-    //   // activeSheet.options.colHeaderVisible = false; 
-    //   // activeSheet.setValue(0, 0, "", GC.Spread.Sheets.SheetArea.colHeader);
-    //   // // Hide column headers.
-    //   // activeSheet.options.colHeaderVisible = false;
-    //   // // Hide row headers.
-    //   // activeSheet.options.rowHeaderVisible = false;
-
-    //   activeSheet.suspendPaint();
-
-    //   // loadJSON("data.txt", function (response) {
-    //   //   spreadsheet.suspendPaint();  
-    //   //   spreadsheet.fromJSON(JSON.parse(response));
-    //   //   spreadsheet.resumePaint();
-    //   //   // console.log(activeSheet);
-    //   // });
-    //   activeSheet.resumePaint();  
-    //   $('#test-test').on('click', function(){ 
-    //     // instance.orientation(GC.Spread.Sheets.Print.PrintPageOrientation.landscape);
-    //     // activeSheet.printInfo(printInfo);
-    //     // instance.showColumnHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
-    //     // // console.log();
-    //     // spreadsheet.print(0);
-
-
-    //     // printInfo.showRowHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
-    //     // printInfo.showColumnHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
-    //     // spreadsheet.print(0);
-    //     // console.log(activeSheet.isPrintLineVisible(true));
-    //     // spreadsheet.savePDF(function (blob) {
-    //     //     var fileName = $('#fileName').val() || 'download';
-    //     //     saveAs(blob, fileName + '.pdf');
-    //     // }, function (error) {
-    //     //     console.log(error);
-    //     // }, {
-    //     //     title: 'Test Title',
-    //     //     author: 'Test Author',
-    //     //     subject: 'Test Subject',
-    //     //     keywords: 'Test Keywords',
-    //     //     creator: 'test Creator'
-    //     // });
-    //     var printInfo = new GC.Spread.Sheets.Print.PrintInfo();
-        
-    //     printInfo.showRowHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
-    //     printInfo.showColumnHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
-    //     console.log(printInfo);
-    //     spreadsheet.print(0);
-    //   })
-
-    //   function loadJSON(file, callback) {  
-    //       var xobj = new XMLHttpRequest();  
-    //       xobj.overrideMimeType("application/txt");  
-    //       xobj.open('GET', file, true);  
-    //       xobj.onreadystatechange = function () {  
-    //           if (xobj.readyState == 4 && xobj.status == "200") {  
-    //               // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode  
-    //               callback(xobj.responseText);  
-    //           }  
-    //       };  
-    //       xobj.send(null);  
-    //   }  
-
-    // })
-
-</script>
+?>  

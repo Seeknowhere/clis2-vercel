@@ -11,7 +11,8 @@ class query{
         $this->db = $db->getConnection();
         session_start();
     }
-
+    
+    
     private function fetch_all($query){
         $data = [];
         while($row = $query->fetch_assoc()){
@@ -26,8 +27,6 @@ class query{
     }
 
     public function login(){
-
-        $query = null;
 
         if(empty($this->Username) || empty($this->Password)){
             return array('error'=>true, 'message' => NO_USER);

@@ -293,14 +293,14 @@
                       <div class="control-group">											
                         <label class="control-label" for="new_clinic_test">Enter package test:</label>
                         <div class="controls">
-                          <input type="text" class="span10 " id="new_add_clinic_package_test" placeholder="Enter a package test">
+                          <input type="text" class="span10 " id="new_add_clinic_package_test" placeholder="Enter package test">
                         </div> <!-- /controls -->				
                       </div> <!-- /control-group -->  
                       
                       <div class="control-group">											
                         <label class="control-label" for="new_clinic_test">Enter price:</label>
                         <div class="controls">
-                          <input type="number" class="span10 " id="new_add_clinic_package_price" placeholder="Enter a new package price">
+                          <input type="number" class="span10 " id="new_add_clinic_package_price" placeholder="Enter package price">
                         </div> <!-- /controls -->				
                       </div> <!-- /control-group -->  
         

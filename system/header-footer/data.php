@@ -1,14 +1,16 @@
 <?php
     include_once($_SERVER['DOCUMENT_ROOT'].'/clis/config.php');
 
-    if(!isset($_SESSION)) { session_start(); } 
+    if(!isset($_SESSION)) { 
+      session_start();
+     } 
 
     if(empty($_SESSION["user_data"]) || empty($_SESSION["user_data"]->Active)){
         header("Location:".root_url()."system/login");
         die();
     }
 
-    // var_dump($_SESSION["user_data"]);
+
 
     function main_header(){
 

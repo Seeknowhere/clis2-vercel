@@ -78,6 +78,9 @@ $(function () {
                         $.each(data, function( index, value ) {
                             html+= '<tr>'+
                                         '<td>'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'</td>'+
+                                        '<td>'+value.Sex+'</td>'+
+                                        '<td>'+calculateAge(value.Date_of_birth)+'</td>'+
+                                        '<td>'+value.Date_of_birth+'</td>'+
                                         '<td class="td-actions td-more-actions">'+
                                             '<a class=" btn btn-small btn-success" href="'+current_url+'patient-details/index.php?id='+value.ID+'"><i class="fa fa-info-circle"></i> Details</a>'+
                                             '<a href="#patient_request_modal" role="button" class=" btn btn-small btn-success request_patient_modal_btn" data-patient-name="'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'" data-patient-id="'+value.ID+'"  data-toggle="modal"><i class="fa fa-paper-plane"></i> Request</a>'+
@@ -96,6 +99,64 @@ $(function () {
         });
 
     })
+
+    function calculateAge(date_of_birth){
+        date_of_birth = new Date(date_of_birth);
+        var today = new Date();
+        var get_different  = today-date_of_birth;
+
+        return Math.floor((get_different) / (365.25 * 24 * 60 * 60 * 1000));
+    }
+
+
+    var split_url = current_url[0].split('/');
+
+    if(split_url[5]=="reception"){
+        loadPatientRecords();
+    }
+
+
+    function loadPatientRecords(){
+        $.ajax({
+            url: root_url+'system/reception/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                Search_patient              :  "",
+                from                        : 'reception',
+                action                      : 'search-patient'
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    var html = "";
+                    $('#patient-search-result-table').prop('hidden', '');
+                    
+                    if(data.length != 0 ){
+                        $.each(data, function( index, value ) {
+                            html+= '<tr>'+
+                                        '<td>'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'</td>'+
+                                        '<td>'+value.Sex+'</td>'+
+                                        '<td>'+calculateAge(value.Date_of_birth)+'</td>'+
+                                        '<td>'+value.Date_of_birth+'</td>'+
+                                        '<td class="td-actions td-more-actions">'+
+                                            '<a class=" btn btn-small btn-success" href="'+current_url+'patient-details/index.php?id='+value.ID+'"><i class="fa fa-info-circle"></i> Details</a>'+
+                                            '<a href="#patient_request_modal" role="button" class=" btn btn-small btn-success request_patient_modal_btn" data-patient-name="'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'" data-patient-id="'+value.ID+'"  data-toggle="modal"><i class="fa fa-paper-plane"></i> Request</a>'+
+                                        '</td>'+
+                                    '</tr>';
+                        });
+                    }else{
+                        html+= '<tr >'+
+                                '<td colspan="2">NO FOUND PATIENT RECORD</td>'+
+                                '</tr>';
+                    }
+                  
+                    $('#patient-search-result-value').html(html)
+                }
+            }
+        });
+    }
 
     // Unused function, but not to remove.
     $('#search_patient_btn').on('click', function(){
@@ -1380,6 +1441,7 @@ $(function () {
 
         var excelUrl = root_url+"assets/microsoft-office/excel-template/"+data[0].File_name;
         var activeSheet = workbook.getActiveSheet();
+
         var oReq = new XMLHttpRequest();
         // console.log(oReq);
         oReq.open('get', excelUrl, true);
@@ -1402,11 +1464,14 @@ $(function () {
             }, function (message) {
                 // console.log(message);
             });
-    
         };
         oReq.send();
 
-        var activeSheet = workbook.getActiveSheet();
+        setCellValueByCoordinate(workbook, data);
+    }
+
+    function setCellValueByCoordinate(workbook, data, mergeCell=null){
+
         var require = [
             "Name", 
             "Date",
@@ -1416,17 +1481,29 @@ $(function () {
             "Medtech name",
             "Medtech license no.",
             "Medtech position"
-        ]
-        
-        var activeSheet = workbook.getActiveSheet();
-        activeSheet.getCell(4,0).value("Any characters pushed outside the cell width are displayed as overflows."); 
-        // $(data).each(function(index, value){
-        //     if(value.Label==require[index]){
-              
-        //     }
-        // })
+        ];
 
+        var flag = true;
+        setInterval(function(){ 
+            if(flag){
 
+                $(data).each(function(index, value){
+                    if(value.Label==require[index]){
+
+                        var activeSheet = workbook.getActiveSheet();
+                        var split_coordinate = (value.Coordinate).split(',');
+                        var y = parseInt(split_coordinate[0]);
+                        var x = parseInt(split_coordinate[1]);
+
+                        activeSheet.getCell(y,x).text("HELLO"); 
+
+                 
+                    }
+                })
+
+                flag=false;
+            }
+        }, 500);
     }
 
 
@@ -1521,34 +1598,35 @@ $(function () {
                     
                     spreadsheetToprint.fromJSON(JSON.parse(data.Json));
                     activeSheetToprint.resumePaint();
-                    spreadsheetToprint.savePDF(function (blob) {
-                        reader.onload = function () {     
-                            var b64 = reader.result.replace(/^data:.+;base64,/, '');                                
-                            var datauri = "data:application/pdf;base64," + b64;
 
-                            Email.send({
-                                Host : "smtp.gmail.com",
-                                Username : "clis.st.ezekiel.moreno@gmail.com",
-                                Password : "T^vYhhp$aeqOfE^6@O#7CXK$BRoCvQaSMtwdJ80nMJgKowna%!",
-                                To : data.Email_address,
-                                From : "clis.st.ezekiel.moreno@gmail.com",
-                                Subject : "RESULT - St. Ezekiel Moreno Clinic Laboratory ",
-                                Body : "Hi, Good day. We sent your "+data.Abbreviation+" ("+data.Description+")"
-                                +" as a result taken in our laboratory and serve your soft copy.",
-                                Attachments : [
-                                    {
-                                        name : data.Abbreviation+" ("+data.Description+")"+".pdf",
-                                        data : datauri
-                                    }],
-                            }).then(
-                                message => done(message)
-                            );  
+                    // spreadsheetToprint.savePDF(function (blob) {
+                    //     reader.onload = function () {     
+                    //         var b64 = reader.result.replace(/^data:.+;base64,/, '');                                
+                    //         var datauri = "data:application/pdf;base64," + b64;
+                    //         Email.send({
+                    //             Host : "smtp.gmail.com",
+                    //             Username : "clis.st.ezekiel.moreno@gmail.com",
+                    //             Password : "T^vYhhp$aeqOfE^6@O#7CXK$BRoCvQaSMtwdJ80nMJgKowna%!",
+                    //             To : data.Email_address,
+                    //             From : "clis.st.ezekiel.moreno@gmail.com",
+                    //             Subject : "RESULT - St. Ezekiel Moreno Clinic Laboratory ",
+                    //             Body : "Hi, Good day. We sent your "+data.Abbreviation+" ("+data.Description+")"
+                    //             +" as a result taken in our laboratory and serve your soft copy.",
+                    //             Attachments : [
+                    //                 {
+                    //                     name : data.Abbreviation+" ("+data.Description+")"+".pdf",
+                    //                     data : datauri
+                    //                 }],
+                    //         }).then(
+                    //             message => done(message)
+                    //         );  
+                    //     };
+                    //     reader.readAsDataURL(blob);
+                    // }, function (error) {
+                    //     console.log(error); 
+                    // });
 
-                        };
-                        reader.readAsDataURL(blob);
-                    }, function (error) {
-                        console.log(error); 
-                    });
+                    sendStatus("NOT OKAY");
 
                     printInfoToprint.showRowHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
                     printInfoToprint.showColumnHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
@@ -1562,7 +1640,7 @@ $(function () {
 
 
 
-    function done(message){
+    function sendStatus(message){
         var flag = true;
 
         if(message=="OK"){

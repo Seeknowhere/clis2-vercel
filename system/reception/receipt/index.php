@@ -73,6 +73,12 @@ $pdf = new PDF_reciept();
 
 $transaction_number = $query->lab_transaction_number($_GET['tran_num']);
 
+
+if(empty($transaction_number) || empty($_SESSION['user_data'])){
+    header("Location:". root_url().'system/reception' );
+    exit();
+}
+
 $pdf->AddPage();
 $pdf->Ln(7);
 $pdf->Cell(55, 10, 'Transaction number', 0, 0);
@@ -85,7 +91,6 @@ $pdf->Cell(58, 1, ': '.@$transaction_number[0]->First_name.' '.@$transaction_num
 $pdf->Cell(33, 1, 'Age', 0, 0);
 $pdf->Cell(52, 1, ': '.@(intval(date('Y', time() - strtotime(@$transaction_number[0]->Date_of_birth))) - 1970), 0, 1);
 $pdf->Line(10, 50, 200, 50);
-
 
 
 // echo json_encode($transaction_number);

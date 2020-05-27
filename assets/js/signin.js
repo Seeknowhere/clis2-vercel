@@ -16,7 +16,6 @@ $(function () {
 	}
 
 	$('#login').on('click', function(){
-        
         $.ajax({
             url: root_url+'root/service.php',
             type: "POST",

@@ -8,7 +8,7 @@
     @$patient_record = $query->get_patient_record($_GET['id']);
     @$patient_medical_history = $query->get_patient_medical_history($_GET['id']);
     @$patient_transaction_logs = $query->get_patient_transaction_logs($_GET['id']);
-    // var_dump($patient_transaction_logs);
+
 ?>
 <div class="main">
   <div class="main-inner">
@@ -53,6 +53,12 @@
               <div class="span3">
                 
                 <div class="control-group">											
+                  <label class="control-label" for="">Age:</label>
+                  <div class="controls">
+                    <input type="number" class="span3 " value="<?php echo floor((time() - strtotime(@$patient_record->Date_of_birth)) / 31556926)?>" readonly >
+                  </div> <!-- /controls -->				
+                </div> <!-- /control-group -->
+                <div class="control-group">											
                   <label class="control-label" for="">Date of birth:</label>
                   <div class="controls">
                     <input type="date" class="span3 " id="patient_record_update_date_of_birth" value="<?php echo @$patient_record->Date_of_birth?>" >
@@ -74,16 +80,16 @@
                   </div>	<!-- /controls -->
                 </div> <!-- /control-group -->
 
-                <div class="control-group">											
+              </div>
+              <div class="span3 ">
+
+              <div class="control-group">											
                   <label class="control-label" for="">Phone number:</label>
                   <div class="controls">
                     <input type="text" class="span3 " id="patient_record_update_phone_number" value="<?php echo @$patient_record->Phone_number?>" >
                   </div> <!-- /controls -->				
                 </div> <!-- /control-group -->
-                
-              
-              </div>
-              <div class="span3 ">
+
                 <div class="control-group">											
                   <label class="control-label" for="  ">Email Address:</label> 
                   <div class="controls">
@@ -98,7 +104,7 @@
                   </div> <!-- /controls -->				
                 </div> <!-- /control-group -->
                 
-                <button class="btn btn-success pull-right" id="update_patient_details" style="margin-left:12%; margin-top:15%"><i class="fa fa-save"></i> UPDATE PATIENT DETAILS </button>
+                <button class="btn btn-success pull-right" id="update_patient_details" style="margin-left:12%; margin-top:5%"><i class="fa fa-save"></i> UPDATE PATIENT DETAILS </button>
 
               </div>
             </div>
