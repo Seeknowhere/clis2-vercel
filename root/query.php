@@ -34,6 +34,7 @@ class query{
         
         $encrypted_password = md5($this->Password);
         
+
         $query1 = $this->db->query(
             "SELECT * FROM `User_account`
             LEFT JOIN User_position ON User_position.ID=User_account.User_position_id
@@ -42,7 +43,8 @@ class query{
         if(!$query1){
             return $this->db->error;
         }
-        
+        // var_dump($this->first_row($query1));
+        // var_dump(mysqli_num_rows($query1));
         if(mysqli_num_rows($query1)){
             $_SESSION["user_data"] = $this->first_row($query1);
             return array('error'=>false, 'message' => LOGIN_SUCCESSFULLY);

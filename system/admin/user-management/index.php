@@ -367,15 +367,15 @@
                           <input type="text" class="span10 " id="search_user" placeholder="Search by username">
                           <!-- <button class="btn btn-success span2  pull-right" id="search_user_btn"><i class="fas fa-search"></i> SEARCH</button> -->
                         </div> <!-- /controls -->				
-                      </div> <!-- /control-group -->  
+                      </div> <!-- /control-group -->
                       
                       <table class="table table-striped table-bordered action-table" id="user-search-result-table" hidden>
                         <thead>
                           <tr>
-                            <th> Status</th>
                             <th> Username</th>
                             <th> Full name </th>  
                             <th> Position </th>
+                            <th> Status </th>
                             <th class="td-actions"> </th> 
                           </tr>
                         </thead>

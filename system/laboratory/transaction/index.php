@@ -15,7 +15,9 @@
     @$count_release_lab_transaction = count($get_release_lab_transaction);
     @$count_pickup_lab_transaction = count($get_pickup_lab_transaction);
 
-    // var_dump($get_request_lab_transaction);
+    
+
+    // var_dump($_SESSION['user_data']);
 ?>
 <div class="main">
   <div class="main-inner">
@@ -34,9 +36,9 @@
                   <div id="big_stats" class="cf">
                     <div class="stat stat-lab " data-id="1"> LAB REQUEST <i class="fa fa-paper-plane"></i> <span class="value"><?php echo $count_request_lab_transaction?></span> </div>
                     <!-- .stat -->
-                    <div class="stat stat-lab stat-lab-active" data-id="2"> LAB ONGOING <i class="fas fa-sync"></i> <span class="value"><?php echo $count_ongoing_lab_transaction?></span> </div>
+                    <div class="stat stat-lab " data-id="2"> LAB ONGOING <i class="fas fa-sync"></i> <span class="value"><?php echo $count_ongoing_lab_transaction?></span> </div>
                     <!-- .stat -->
-                    <div class="stat stat-lab" data-id="3"> LAB RELEASE <i class="icon-bullhorn"></i> <span class="value"><?php echo $count_release_lab_transaction?></span> </div>
+                    <div class="stat stat-lab stat-lab-active" data-id="3"> LAB RELEASE <i class="icon-bullhorn"></i> <span class="value"><?php echo $count_release_lab_transaction?></span> </div>
                     <!-- .stat --> 
                     <div class="stat stat-lab" data-id="4"> PATIENT PICK UP <i class="icon-bullhorn"></i> <span class="value"><?php echo $count_pickup_lab_transaction?></span> </div>
                     <!-- .stat --> 
@@ -95,7 +97,7 @@
               </tbody>
             </table>
 
-            <table class="table table-striped table-bordered action-table" id="lab-ongoing-patient">
+            <table class="table table-striped table-bordered action-table" id="lab-ongoing-patient" hidden>
               <thead>
                 <tr>
                   <th> # </th>
@@ -126,7 +128,7 @@
                       </td>
                       <td> <?php echo ($item->Abbreviation) ?></td>
                       <td class="td-actions td-more-actions">
-                        <button class="btn btn-small btn-default redo" data-redo-type="accept" data-patient-id="<?php echo $item->Patient_id?>" data-lab-test-id="<?php echo $item->Lab_test_id?>" data-patient-name="<?php echo @$item->First_name.' '.@$item->Middle_name.' '.@$item->Last_name ?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-redo"></i> REDO</button>
+                        <!-- <button class="btn btn-small btn-default redo" data-redo-type="accept" data-patient-id="<?php echo $item->Patient_id?>" data-lab-test-id="<?php echo $item->Lab_test_id?>" data-patient-name="<?php echo @$item->First_name.' '.@$item->Middle_name.' '.@$item->Last_name ?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-redo"></i> REDO</button> -->
                         <button class="btn btn-small btn-success lab_release" data-lab-test-id="<?php echo $item->Lab_test_id?>" data-patient-id="<?php echo $item->Patient_id?>" data-lab-test-id="<?php echo $item->Lab_test_id?>" data-patient-name="<?php echo @$item->First_name.' '.@$item->Middle_name.' '.@$item->Last_name ?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-edit"></i> EDIT</button>
                       </td>
                     </tr>
@@ -135,7 +137,7 @@
               </tbody>
             </table>
 
-            <table class="table table-striped table-bordered action-table" id="lab-release-patient" hidden>
+            <table class="table table-striped table-bordered action-table" id="lab-release-patient" >
               <thead>
                 <tr>
                   <th> # </th>
@@ -165,10 +167,12 @@
                         <?php }?>
                       </td>
                       <td> <?php echo ($item->Abbreviation) ?></td>
-                      <td class="td-actions" style="width:200px !important">
+                      <td class="td-actions" style="width:300px !important">
                         <button class="btn btn-small btn-default redo" data-redo-type="ongoing" data-patient-id="<?php echo $item->Patient_id?>" data-lab-test-id="<?php echo $item->Lab_test_id?>" data-patient-name="<?php echo @$item->First_name.' '.@$item->Middle_name.' '.@$item->Last_name ?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-redo"></i> REDO</button>
                         <button class="btn btn-small btn-primary lab_ready_to_pick_up_preview" data-patient-name="<?php echo @$item->First_name.' '.@$item->Middle_name.' '.@$item->Last_name ?>" data-patient-id="<?php echo $item->Patient_id?>"  data-lab-test-id="<?php echo $item->Lab_test_id?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-eye"></i> PREVIEW</button>
-                        <button class="btn btn-small btn-success lab_ready_to_pick_up" data-patient-id="<?php echo $item->Patient_id?>"  data-lab-test-id="<?php echo $item->Lab_test_id?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-print"></i> PRINT</button>
+                        <!-- <button class="btn btn-small btn-success notify" data-patient-id="<?php echo $item->Patient_id?>"  data-lab-test-id="<?php echo $item->Lab_test_id?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-bell"></i> NOTIFY</button> -->
+                        <button class="btn btn-small btn-success lab_ready_to_pick_up" data-patient-id="<?php echo $item->Patient_id?>"  data-lab-test-id="<?php echo $item->Lab_test_id?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-download"></i> DOWNLOAD</button>
+                        <!-- <button class="btn btn-small btn-success lab_ready_to_pick_up" data-patient-id="<?php echo $item->Patient_id?>"  data-lab-test-id="<?php echo $item->Lab_test_id?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-print"></i> PRINT</button> -->
                       </td>
                     </tr>
                   <?php }?>
@@ -210,20 +214,18 @@
                 <?php }?>
               </tbody>
             </table>
-            
+            <input type="text" class="span5" id="medtech" value="<?=$_SESSION['user_data']->First_name.' '.$_SESSION['user_data']->Middle_name.' '.$_SESSION['user_data']->Last_name?>" style="display:none">
             <!-- Modal -->
-            <div id="patient_releasing_modal" class="modal hide fade modal-extra-width-template lab-template-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div id="patient_releasing_modal" class="modal hide fade lab-template-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h3 id="myModalLabel">PATIENT NAME: <span id="releasing_patient_name"></span></h3>
               </div>
-              <div class="modal-body modal-body-lab-template">
-                <div class="form-vertical">
-                  <div class="control-group">
-                    
-                    <div class="form-vertical" id="lab-test-template" style="height:550px ; width :100%;"></div>
-                  </div> <!-- /control-group -->  	
-                </div>
+              <div class="modal-body" style="max-height:70vh !important; margin-left:5%;">
+   
+                  <!-- <div class="form-vertical" id="lab-test-template" style="height:550px ; width :100%;"></div> -->
+                  <div id="lab-test-template" ></div>
+
               </div>
               <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
@@ -238,14 +240,12 @@
                 <h3 id="myModalLabel">PATIENT NAME: <span id="releasing_patient_name_preview"></span></h3>
               </div>
               <div class="modal-body modal-body-lab-template">
-                <div class="form-vertical">
-                  <div class="control-group">
-                    <div class="form-vertical" id="lab-test-template-preview" style="height:550px ; width :100%;"></div>
-                  </div> <!-- /control-group -->
-                </div>
+                <div id="lab-test-template-preview" style="height:50vh ; width :99%;"></div> 
+                <!-- <div id="lab-test-template-preview-new" style="height:50vh ; width :99%;"></div>   -->
+
               </div>
               <div class="modal-footer">
-              
+                <!-- <button type="button" class="btn btn-small btn-success" id="print_excel" ><i class="fa fa-print"></i> PRINT</button> -->
               </div>
             </div>
             

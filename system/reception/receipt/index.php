@@ -38,7 +38,7 @@ class PDF_reciept extends FPDF {
         $this->Line(10, 285, 200, 285);
     }
 
-    function PriceTable($products, $quantity, $prices) {
+    function PriceTable($products, $quantity, $prices, $package_price=NULL) {
 
         $this->SetFont('Arial', 'B', 12);
         $this->SetTextColor(0);
@@ -63,7 +63,12 @@ class PDF_reciept extends FPDF {
         }
 
         $this->Cell(130, 10, "Total", 1);
-        $this->Cell(60, 10, array_sum($prices), 1, 1, 'R');
+        if(empty($package_price)){
+            $this->Cell(60, 10, array_sum($prices), 1, 1, 'R');
+        }else{
+            $this->Cell(60, 10, $package_price, 1, 1, 'R');
+        }
+
     }
     
 }
@@ -73,6 +78,7 @@ $pdf = new PDF_reciept();
 
 $transaction_number = $query->lab_transaction_number($_GET['tran_num']);
 
+// var_dump($transaction_number);
 
 if(empty($transaction_number) || empty($_SESSION['user_data'])){
     header("Location:". root_url().'system/reception' );
@@ -104,12 +110,24 @@ $price = array();
 foreach($transaction_number as $item){
     array_push($product, $item->Abbreviation);
     array_push($quantity, 1);
-    array_push($price, $item->Price);
+    
+    if(empty($item->Package_price)){
+        array_push($price, $item->Price);
+    }else{
+        array_push($price, "");
+    }
+    
+
 }
 
+if(!empty(@$transaction_number[0]->Package_price)){
+    $package_price = @$transaction_number[0]->Package_price;
+}else{
+    $package_price = NULL;
+}
 
 $pdf->Ln(8);
-$pdf->PriceTable($product,$quantity, $price);
+$pdf->PriceTable($product,$quantity, $price, $package_price);
 
 $pdf->SetXY(10,245);
 $pdf->Cell(80, 10, 'Paid by', 0, 0);

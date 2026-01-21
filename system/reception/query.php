@@ -16,6 +16,11 @@ class query{
     public $Lab_single_test_id;
     public $Lab_package_test_id;
 
+    public $lab_test_name;
+    public $Clinic_lab;
+    public $Clinic_location;
+    public $Clinic_price;
+
 	public function __construct(){
 		$db = new config();
         $this->db = $db->getConnection();
@@ -275,13 +280,13 @@ class query{
             // searching duplicate single lab test to package lab test
 
             $package_lab_list = $this->db->query("SELECT * FROM Lab_package_list_test WHERE Lab_package_test_id IN ($lab_package_test_id)");
-
+         
             if(!$package_lab_list){
                 return $this->db->error;
             }
     
             $package_lab_list = $this->fetch_all($package_lab_list);
-    
+      
             foreach($package_lab_list as $item1){
                 foreach($this->Lab_single_test_id as $ID){
                     if($item1->Lab_test_id==$ID){
@@ -295,7 +300,7 @@ class query{
             $lab_transaction = $this->db->query("SELECT * FROM Lab_transaction 
                                                 WHERE Patient_id=$this->Patient_ID 
                                                 AND Mode_of_test_id=2 
-                                                AND Lab_test_id IN ($lab_package_test_id)");
+                                                AND Lab_package_test_id IN ($lab_package_test_id)");
 
 
             if(!$lab_transaction){
@@ -303,7 +308,7 @@ class query{
             }
 
             $lab_transaction = $this->fetch_all($lab_transaction);
-     
+            // var_dump($this->Patient_ID );
             if(!empty($lab_transaction)){
                 return array('error'=>true, 'message' => DUPLICATE);
             }
@@ -311,6 +316,7 @@ class query{
             // end searching duplicate lab test
         }   
 
+        // return false;
 
         if(!empty($this->Lab_single_test_id)){  
 
@@ -439,7 +445,280 @@ class query{
 
         $lab_transaction_request = $this->fetch_all($lab_transaction_request);
 
+        foreach($lab_test_template as $item){
+
+            foreach($lab_transaction_request as $item2){
+                
+                if($item->Lab_test_id == $item2->Lab_test_id){
+                    $query = $this->db->query(
+                        "INSERT INTO Lab_test_template(
+                                Lab_transaction_id, 
+                                Lab_test_id, 
+                                Label, 
+                                Coordinate,
+                                Datetime_created 
+                                ) 
+                            VALUES(
+                                $item2->ID,
+                                '$item->Lab_test_id', 
+                                '$item->Label', 
+                                '$item->Coordinate',
+                                now()
+                                )");
+                }
+
+                if(!$query){
+                    return $this->db->error;
+                }
+
+            }
+           
+        }
+
+        foreach($lab_transaction_request as $item){
+            $query = $this->db->query(
+                "INSERT INTO User_transaction(
+                        Lab_transaction_id,
+                        Lab_transaction_status_id, 
+                        Patient_id, 
+                        User_account_id, 
+                        Datetime_created
+                        ) 
+                    VALUES(
+                        $item->ID,
+                        1,
+                        $this->Patient_ID,
+                        $user->ID,
+                        now() 
+                        )");
+
+        }
+
+        $get_lab_transaction_number = $this->db->query("SELECT Transaction_number FROM Lab_transaction WHERE `Lab_transaction`.ID=$last_lab_transaction_id");
         
+        if(!$get_lab_transaction_number){
+            return $this->db->error;
+        }
+     
+        $get_lab_transaction_number = $this->first_row($get_lab_transaction_number);
+
+        return array('error'=>false, 'message' => SUCCESS, 'tran_number'=>$get_lab_transaction_number->Transaction_number);
+    }
+
+
+    public function patient_request_sent_out(){
+
+
+        if(empty($this->Patient_ID) || empty($this->Lab_package_test_id) && empty($this->Lab_single_test_id)){
+            return array('error'=>true, 'message' => REQUIRED_FIELD);
+        }
+
+        $lab_package_test_id = implode(',', $this->Lab_package_test_id);
+        $lab_single_test_id = implode(',', $this->Lab_single_test_id);
+        $has_duplicate_lab_list = false;
+        $last_lab_transaction_id = null;
+
+        $user = $_SESSION['user_data'];
+
+
+        if(!empty($lab_package_test_id)){
+
+            // searching duplicate single lab test to package lab test
+
+            $package_lab_list = $this->db->query("SELECT * FROM Lab_package_list_test WHERE Lab_package_test_id IN ($lab_package_test_id)");
+
+            if(!$package_lab_list){
+                return $this->db->error;
+            }
+    
+            $package_lab_list = $this->fetch_all($package_lab_list);
+    
+            foreach($package_lab_list as $item1){
+                foreach($this->Lab_single_test_id as $ID){
+                    if($item1->Lab_test_id==$ID){
+                        return array('error'=>true, 'message' => DUPLICATE);
+                    }
+                }
+            }
+            // end searching duplicate single lab test to package lab test
+
+            // search duplicate package lab test
+            $lab_transaction = $this->db->query("SELECT * FROM Lab_transaction 
+                                                WHERE Patient_id=$this->Patient_ID 
+                                                AND Mode_of_test_id=2 
+                                                AND Lab_test_id IN ($lab_package_test_id)");
+
+
+            if(!$lab_transaction){
+                return $this->db->error;
+            }
+
+            $lab_transaction = $this->fetch_all($lab_transaction);
+     
+            if(!empty($lab_transaction)){
+                return array('error'=>true, 'message' => DUPLICATE);
+            }
+
+            // end searching duplicate lab test
+        }   
+
+
+        if(!empty($this->Lab_single_test_id)){  
+
+            // search duplicate lab test
+            $lab_transaction = $this->db->query("SELECT * FROM Lab_transaction WHERE Patient_id=$this->Patient_ID AND Mode_of_test_id=1 AND Lab_test_id IN ($lab_single_test_id)");
+
+
+            if(!$lab_transaction){
+                return $this->db->error;
+            }
+
+            $lab_transaction = $this->fetch_all($lab_transaction);
+     
+            if(!empty($lab_transaction)){
+                return array('error'=>true, 'message' => DUPLICATE);
+            }
+            // end searching duplicate lab test
+
+        }
+        
+        $lab_transaction_number = $this->db->query("SELECT Transaction_number FROM Lab_transaction ORDER BY id DESC LIMIT 1");
+
+        if(!$lab_transaction_number){
+            return $this->db->error;
+        }
+
+        $lab_transaction_number = $this->first_row($lab_transaction_number);
+
+        $transaction_number = @$lab_transaction_number->Transaction_number + 1;
+
+
+        if(!empty($this->Lab_package_test_id)){
+
+            $package_test_per_transaction = 
+            $this->db->query("SELECT 
+            Lab_package_list_test.Lab_package_test_id, 
+            Lab_package_list_test.Lab_test_id 
+            FROM Lab_package_test 
+            LEFT JOIN `Lab_package_list_test` ON `Lab_package_list_test`.Lab_package_test_id=`Lab_package_test`.ID
+            WHERE Lab_package_test.ID IN ($lab_package_test_id) ");
+
+            if(!$package_test_per_transaction){
+                return $this->db->error;
+            }
+
+            $package_test_per_transaction = $this->fetch_all($package_test_per_transaction);
+
+
+            foreach($package_test_per_transaction as $key=>$item){
+                
+                $query = $this->db->query(
+                        "INSERT INTO Lab_transaction(
+                                Transaction_number,
+                                Mode_of_test_id, 
+                                Lab_package_test_id, 
+                                Lab_test_id, 
+                                Lab_transaction_status_id, 
+                                Patient_id, 
+                                Datetime_request ) 
+                            VALUES(
+                                $transaction_number,
+                                2,
+                                $item->Lab_package_test_id, 
+                                $item->Lab_test_id, 
+                                5, 
+                                $this->Patient_ID, 
+                                now() )");
+
+            }
+            
+            $last_lab_transaction_id = $this->db->insert_id;
+
+            $lab_test_template = $this->db->query("SELECT * 
+            FROM Lab_package_test 
+            LEFT JOIN `Lab_package_list_test` ON `Lab_package_list_test`.Lab_package_test_id=`Lab_package_test`.ID
+            LEFT JOIN `Lab_test_template_config` ON `Lab_test_template_config`.Lab_test_id=`Lab_package_list_test`.Lab_test_id
+            WHERE Lab_package_test.ID IN ($lab_package_test_id) ");
+    
+            if(!$lab_test_template){
+                return $this->db->error;
+            }
+            
+            $lab_test_template = $this->fetch_all($lab_test_template);
+        }
+
+        if(!empty($this->Lab_single_test_id)){
+
+            foreach($this->Lab_single_test_id as $key=>$ID){
+                $query = $this->db->query(
+                        "INSERT INTO Lab_transaction(
+                                Transaction_number,
+                                Mode_of_test_id, 
+                                Lab_test_id, 
+                                Lab_transaction_status_id, 
+                                Patient_id, 
+                                Datetime_request ) 
+                            VALUES(
+                                $transaction_number,
+                                1,
+                                $ID,
+                                5, 
+                                $this->Patient_ID, 
+                                now() )");
+
+
+            }
+            $last_lab_transaction_id = $this->db->insert_id;
+            
+            $lab_test_template = $this->db->query("SELECT * FROM Lab_test_template_config WHERE Lab_test_id IN ($lab_single_test_id) ");
+    
+
+            if(!$lab_test_template){
+                return $this->db->error;
+            }
+    
+            $lab_test_template = $this->fetch_all($lab_test_template);
+        }
+        
+        $lab_transaction_request = $this->db->query("SELECT ID, Lab_test_id FROM 
+        Lab_transaction WHERE Lab_transaction_status_id=1 AND Patient_id=$this->Patient_ID 
+        AND Datetime_ongoing IS NULL AND Datetime_release IS NULL AND Datetime_pickup IS NULL ");
+        
+        if(!$lab_transaction_request){
+            return $this->db->error;
+        }
+
+        $lab_transaction_request = $this->fetch_all($lab_transaction_request);
+
+        foreach($lab_test_template as $item){
+
+            foreach($lab_transaction_request as $item2){
+                
+                if($item->Lab_test_id == $item2->Lab_test_id){
+                    $query = $this->db->query(
+                        "INSERT INTO Lab_test_template(
+                                Lab_transaction_id, 
+                                Lab_test_id, 
+                                Label, 
+                                Coordinate,
+                                Datetime_created 
+                                ) 
+                            VALUES(
+                                $item2->ID,
+                                '$item->Lab_test_id', 
+                                '$item->Label', 
+                                '$item->Coordinate',
+                                now()
+                                )");
+                }
+
+                if(!$query){
+                    return $this->db->error;
+                }
+
+            }
+           
+        }
 
         foreach($lab_transaction_request as $item){
             $query = $this->db->query(
@@ -477,6 +756,7 @@ class query{
         `Lab_transaction`.*,
         `Lab_transaction_status`.*,
         `Lab_test`.*,
+        `Lab_package_test`.Price AS Package_price,
         `Patient`.*,
         `Mode_of_test`.*
         FROM Lab_transaction 
@@ -491,6 +771,71 @@ class query{
             return $this->db->error;
         }
         return $this->fetch_all($query);
+    }
+
+
+    public function patient_send_out(){
+
+        if(empty($this->Lab_test_name) 
+        || empty($this->Clinic_lab) 
+        || empty($this->Clinic_location)
+        || empty($this->Clinic_price)
+        ){
+            return array('error'=>true, 'message' => REQUIRED_FIELD);
+        }
+
+        $lab_transaction_number = $this->db->query("SELECT Transaction_number FROM Lab_transaction_sent_out ORDER BY id DESC LIMIT 1");
+
+        if(!$lab_transaction_number){
+            return $this->db->error;
+        }
+        
+        $lab_transaction_number = $this->first_row($lab_transaction_number);
+
+        $transaction_number = @$lab_transaction_number->Transaction_number + 1;
+
+        $query = $this->db->query(
+            "INSERT INTO Lab_transaction_sent_out(
+                    Transaction_number,
+                    Lab_test, 
+                    Clinic_name, 
+                    Clinic_location, 
+                    Price, 
+                    Lab_transaction_status_id, 
+                    Patient_id, 
+                    User_id,
+                    Datetime_created 
+                    ) 
+                VALUES(
+                    $transaction_number,
+                    '$this->Lab_test_name',
+                    '$this->Clinic_lab', 
+                    '$this->Clinic_location', 
+                    '$this->Clinic_price', 
+                    5, 
+                    '$this->Patient_ID', 
+                    '$this->User_id',
+                    now() 
+                    )"); 
+            
+
+        if(!$query){
+            return $this->db->error;
+        }
+
+        $get_inserted_id = $this->db->insert_id;
+
+        $get_lab_transaction_number = $this->db->query("SELECT Transaction_number FROM Lab_transaction_sent_out WHERE `Lab_transaction_sent_out`.ID=$get_inserted_id");
+        
+        if(!$get_lab_transaction_number){
+            return $this->db->error;
+        }
+     
+        $get_lab_transaction_number = $this->first_row($get_lab_transaction_number);
+
+    
+        return array('error'=>false, 'message' => SUCCESS, 'tran_number'=>$get_lab_transaction_number->Transaction_number);
+
     }
 
 }

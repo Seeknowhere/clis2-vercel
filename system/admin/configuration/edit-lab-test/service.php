@@ -16,7 +16,7 @@ try{
     $lab_test_id = isset($_POST['lab_test_id']) ? $_POST['lab_test_id'] : NULL;
     $label = isset($_POST['label']) ? $_POST['label'] : NULL;
     $coordinate = isset($_POST['coordinate']) ? $_POST['coordinate'] : NULL;
-
+    $show_field = isset($_POST['show_field']) ? $_POST['show_field'] : NULL;
     $search = isset($_POST['search']) ? $_POST['search'] : NULL;
 
     if($from=='edit-lab-test'){
@@ -54,6 +54,12 @@ try{
             $query->Search = $search;
 
             echo json_encode($query->search_label());
+        }
+
+        if($action=='update-displays'){
+            $query->ID = $id;
+            $query->Show_field = $show_field;
+            echo json_encode($query->update_display_label());
         }
 
     }

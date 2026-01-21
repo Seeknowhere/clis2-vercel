@@ -1339,7 +1339,7 @@ CUSTOMIZE CSS
 	left : 43% !important;
 }
 .receipt-fade-in.fade.in{
-	top:28% !important;
+	top:35% !important;
 }
 .modal-print-receipt{
 	/* height: 800px !important; */
@@ -1351,8 +1351,12 @@ CUSTOMIZE CSS
 }
 
 .modal-extra-width-template{
-	width: 1100px !important;
-	left : 39% !important;
+	width: 900px !important;
+	left : 35% !important;
+	/* margin: 33% auto;
+	width: 50%;
+	border: 3px solid green;
+	padding: 10px; */
 }
 
 .modal-body-lab-template{
@@ -1362,6 +1366,11 @@ CUSTOMIZE CSS
 
 .lab-template-modal.fade.in{
 	top:35% !important;
+	overflow: hidden;
+}
+
+.lab-edit-template-modal.fade.in{
+	top:30% !important;
 }
 
 /* #bar-chart{

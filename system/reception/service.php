@@ -25,6 +25,17 @@ try{
 
     $query->Lab_package_test_id = isset($_POST['Lab_package_test_id']) ? json_decode($_POST['Lab_package_test_id']) : NULL;
 
+
+    $query->Lab_test_name = isset($_POST['lab_test_name']) ? $_POST['lab_test_name'] : NULL;
+
+    $query->Clinic_lab = isset($_POST['clinic_lab']) ? $_POST['clinic_lab'] : NULL;
+
+    $query->Clinic_location = isset($_POST['clinic_location']) ? $_POST['clinic_location'] : NULL;
+
+    $query->Clinic_price = isset($_POST['clinic_price']) ? $_POST['clinic_price'] : NULL;
+
+    $query->User_id = isset($_POST['user_id']) ? $_POST['user_id'] : NULL;
+
     if($from=='reception'){
 
         if($action=='new-patient'){
@@ -38,6 +49,15 @@ try{
         if($action=='patient-request'){
             echo json_encode($query->patient_request());    
         }
+
+        if($action=='patient-request-send-out'){
+            echo json_encode($query->patient_request_sent_out());    
+        }
+
+        if($action=='patient-send-out'){
+            echo json_encode($query->patient_send_out());    
+        }
+
         
     }
 

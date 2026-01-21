@@ -33,7 +33,9 @@
 <link href="<?php echo root_url()?>assets/css/style.css" rel="stylesheet">
 <link href="<?php echo root_url()?>assets/css/pages/dashboard.css" rel="stylesheet">
 <link href="<?php echo root_url()?>root/library/grapecity/gc.spread.sheets.excel2013white.12.0.10.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script> -->
+
+
 
 <link rel="icon" href="<?php echo root_url().'assets/img/company_logo.png'?>">
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -83,6 +85,7 @@
           <ul class="dropdown-menu">
             <li><a href="<?php echo root_url()?>system/laboratory/test-supply"><i class="fas fa-boxes"> </i> Test supply</a></li>
             <li><a href="<?php echo root_url()?>system/laboratory/transaction"><i class="fas fa-exchange-alt"></i> Transaction</a></li>
+            <li><a href="<?php echo root_url()?>system/laboratory/patient-records"><i class="fas fa-user"></i> Patient Record</a></li>
           </ul>
         </li>
         <?php }?>
@@ -161,7 +164,6 @@
 <script src="<?php echo root_url()?>root/library/grapecity/gc.spread.sheets.pdf.12.0.10.min.js"></script> 
 <script src="<?php echo root_url()?>root/library/smtpjs/smtp.js"></script> 
 <script src="<?php echo root_url()?>assets/js/service.js"></script> 
-
 </body>
 </html>
 

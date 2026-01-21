@@ -96,6 +96,7 @@ class query{
 
         foreach($query as $item ){
             $item->Price = $this->cost_calculation($item->ID);
+            $item->Qty = $this->get_qty($item->ID);
         }
 
         return $query;
@@ -112,7 +113,8 @@ class query{
             Lab_test.Price
             FROM Lab_transaction
             LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
-            WHERE Mode_of_test_id=1 AND Lab_test_id='$id'");
+            WHERE Mode_of_test_id=1 AND Lab_test_id='$id'"
+            );
 
         $query = $this->fetch_all($query);
 
@@ -123,6 +125,32 @@ class query{
         }
 
         return $sum_up;
+
+
+    }
+
+    private function get_qty($id){
+
+        $qty = 0;
+
+        $query = $this->db->query(
+            "SELECT 
+            Lab_test.ID,
+            Lab_test.Price
+            FROM Lab_transaction
+            LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
+            WHERE Mode_of_test_id=1 AND Lab_test_id='$id' GROUP BY Lab_transaction.Transaction_number"
+            );
+
+        $query = $this->fetch_all($query);
+
+        foreach($query as $key => $item ){
+
+            $qty++;
+            
+        }
+
+        return $qty;
 
 
     }

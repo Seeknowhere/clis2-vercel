@@ -16,6 +16,7 @@ try{
     $query->Description = isset($_POST['Description']) ? $_POST['Description'] : NULL;
     $query->Price = isset($_POST['Price']) ? $_POST['Price'] : NULL;
     
+    $query->Cost = isset($_POST['Cost']) ? $_POST['Cost'] : NULL;
     $query->Package_name = isset($_POST['Package_name']) ? $_POST['Package_name'] : NULL;
     $query->Discount = isset($_POST['Discount']) ? $_POST['Discount'] : NULL;
     $query->Lab_test_id = isset($_POST['Lab_test_id']) ? json_decode($_POST['Lab_test_id']) : NULL;
@@ -37,6 +38,7 @@ try{
                 echo json_encode(array('error'=>true, 'message' => REQUIRED_FIELD));
                 return false;
             }
+
 
             if($_FILES['Template']['error'] == 0)
             {

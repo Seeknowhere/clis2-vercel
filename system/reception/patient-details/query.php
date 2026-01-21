@@ -62,11 +62,11 @@ class query{
         $query = $this->db->query("SELECT * 
         FROM Lab_transaction 
         LEFT JOIN `Lab_test` ON `Lab_transaction`.Lab_test_id=`Lab_test`.ID
+        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
         LEFT JOIN `Mode_of_test` ON `Lab_transaction`.Mode_of_test_id=`Mode_of_test`.ID
         LEFT JOIN `Lab_transaction_status` ON `Lab_transaction`.Lab_transaction_status_id=`Lab_transaction_status`.ID
         LEFT JOIN `Lab_test_template` ON `Lab_transaction`.ID=`Lab_test_template`.Lab_transaction_id
-       
-        WHERE Lab_transaction.Patient_id = '$id' "
+        WHERE Lab_transaction.Patient_id = '$id' GROUP BY  `Lab_transaction`.Transaction_number, `Lab_transaction`.Transaction_number"
         );
 
         if(!$query){
@@ -76,17 +76,49 @@ class query{
         return $this->fetch_all($query);
     }
 
+
+    
+
     public function get_patient_transaction_logs($id){
         
-        $query = $this->db->query("SELECT * 
+        $query = $this->db->query("SELECT 
+
+        `User_account`.*,
+        `User_position`.*,
+        `Lab_test`.*,
+        `Lab_package_test`.*,
+        `Lab_transaction_status`.*,   
+        `Lab_transaction`.*,
+        `Mode_of_test`.*,  
+        `User_transaction`.*
         FROM User_transaction 
         LEFT JOIN `Lab_transaction` ON `Lab_transaction`.ID=`User_transaction`.Lab_transaction_id
         LEFT JOIN `User_account` ON `User_account`.ID=`User_transaction`.User_account_id
         LEFT JOIN `User_position` ON `User_position`.ID=`User_account`.User_position_id
         LEFT JOIN `Lab_test` ON `Lab_transaction`.Lab_test_id=`Lab_test`.ID
+        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
         LEFT JOIN `Mode_of_test` ON `Lab_transaction`.Mode_of_test_id=`Mode_of_test`.ID
         LEFT JOIN `Lab_transaction_status` ON `Lab_transaction`.Lab_transaction_status_id=`Lab_transaction_status`.ID
-        WHERE Lab_transaction.Patient_id = '$id' "
+        WHERE Lab_transaction.Patient_id = '$id'
+        GROUP BY  `Lab_transaction`.Transaction_number, `Lab_transaction`.Lab_test_id
+        ORDER BY  `User_account`.First_name,`User_account`.Middle_name, `User_account`.Last_name ASC 
+         "
+        );
+
+        if(!$query){
+            return $this->db->error;
+        }
+
+        return $this->fetch_all($query);
+    }
+
+    public function get_patient_sent_out_logs($id){
+        
+        $query = $this->db->query("SELECT * 
+        FROM Lab_transaction_sent_out 
+        LEFT JOIN `User_account` ON `User_account`.ID=`Lab_transaction_sent_out`.User_id
+        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_sent_out`.Lab_transaction_status_id=`Lab_transaction_status`.ID
+        WHERE Lab_transaction_sent_out.Patient_id = '$id' "
         );
 
         if(!$query){

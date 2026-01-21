@@ -281,7 +281,7 @@
                         <input type="text" name="action" value="add-clinic-test" style="display:none" />
                         <input  class="btn btn-success" type="submit" value="Upload" style="display:none">
                       </form>
-
+                          
                         <button class="btn btn-success span2  pull-right" id="new_clinic_test_btn"><i class="fas fa-plus"></i> ADD TEST</button>
 
                   </fieldset>
@@ -391,7 +391,7 @@
                             <th> Cost</th>
                             <th> Available</th>
                             <th> Date created</th>
-                            <th class="td-actions"> </th>
+                            <!-- <th class="td-actions"> </th> -->
                           </tr>
                         </thead>
                         <tbody id="clinic-package-test-result-value"> 

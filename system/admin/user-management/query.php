@@ -185,7 +185,7 @@ class query{
                 Phone_number,   
                 Datetime_created ) 
             VALUES(
-                '$this->User_position_id',
+                $this->User_position_id,
                 '$this->User_first_name',
                 '$this->User_middle_name', 
                 '$this->User_last_name', 
@@ -208,7 +208,9 @@ class query{
     public function search_user(){
 
         $query = $this->db->query(
-        "SELECT * 
+        "SELECT 
+        User_position.*,
+        User_account.*
         FROM User_account 
         LEFT JOIN `User_position` ON `User_position`.ID=`User_account`.User_position_id
         WHERE `User_account`.Username LIKE '%$this->Search%'");

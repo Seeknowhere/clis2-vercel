@@ -7,7 +7,7 @@
 
     @$get_clinic_test_single = $query->get_clinic_test_single($_GET['id']);
 
-
+    
 ?>
 <div class="main">
   <div class="main-inner">
@@ -37,7 +37,6 @@
 						
             <div class="tab-content">
 
-
                 <div class="tab-pane" id="add-label">
                   <fieldset class="form-horizontal">
                       <div class="alert">
@@ -49,12 +48,9 @@
                           <li>Date</li>
                           <li>Age</li>
                           <li>Gender</li>
-                          <!-- <li>Physician</li> -->
-                          <li>Time taken</li>
-                          <li>Medtech name</li>
-                          <li>Medtech license no.</li>
-                          <li>Medtech position</li>
+                          <li>Medtech</li>
                         </ol>
+                        There are case-sensitive and mistyped label the system will not recognize as requiring of the template. 
                       </div>
                       <div class="control-group">											
                         <label class="control-label" for="template_add_label">Enter label name:</label>
@@ -65,10 +61,10 @@
 
                       <div id="field_type">
                       </div>
-                      <div class="control-group">											
-                        <label class="control-label" for="template_add_label_coordinate">Enter label position:</label>
+                      <div class="control-group">
+                        <label class="control-label" for="template_add_label_coordinate">Enter coordinates:</label>
                         <div class="controls">
-                          <input type="text" class="span10 " id="template_add_label_coordinate" placeholder="Enter a column-row coordinates (e.g. 02)">
+                          <input type="text" class="span10 " id="template_add_label_coordinate" placeholder="Enter a column-row coordinates (e.g. A,2)">
                         </div> <!-- /controls -->				
                       </div> <!-- /control-group -->  
 
@@ -77,6 +73,7 @@
                   </fieldset>
 								</div>
 
+              
                 <div class="tab-pane " id="label-detail">
                  	<fieldset class="form-horizontal">
 
@@ -86,7 +83,7 @@
                           <input type="text" class="span10 " id="search_label" data-id="<?php echo @$_GET['id']?>" value="">
                           <!-- <button class="btn btn-success span2  pull-right" id="search_label_btn" data-id="<?php echo @$_GET['id']?>"><i class="fas fa-search"></i> SEARCH</button> -->
                         </div> <!-- /controls -->				
-                      </div> <!-- /control-group -->  
+                      </div> <!-- /control-group -->
                       <hr>
 
                       <table class="table table-striped table-bordered action-table" id="label-result-table" hidden>
@@ -97,6 +94,7 @@
                             <th> Label </th>
                             <th> Coordinate</th>
                             <th> Date created</th>
+                            <th> Diplay label</th>
                             <th class="td-actions td-more-actions"> </th>
                           </tr>
                         </thead>

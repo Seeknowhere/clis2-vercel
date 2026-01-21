@@ -139,14 +139,13 @@ class query{
     public function get_clinic_test_single($id){
 
         $query = $this->db->query("SELECT * FROM 
-        Lab_test");
+        Lab_test WHERE ID='$id'  " );
 
         if(!$query){
             return $this->db->error;
         }
-        $data = $query->fetch_assoc();
-        return $data;
-        // return $query->fetch_assoc($query);
+
+        return $this->first_row($query);
 
     }
 
@@ -197,7 +196,7 @@ class query{
         // end checker for coordinate
 
         // checker for max and min coordinate
-        if(strlen($this->Coordinate)>=4){
+        if(strlen($this->Coordinate)>=5){
             return array('error'=>true, 'message' => REACH_MAX_COORDINATES);
         }
         if(strlen($this->Coordinate)<=1){
@@ -209,9 +208,9 @@ class query{
         $coordinate = explode(',', $this->Coordinate);
         $coordinate_3rd_value = !empty($coordinate[2])? !is_numeric($coordinate[2]) : false ;
 
-        if(!is_numeric($coordinate[0]) || !is_numeric($coordinate[1]) || $coordinate_3rd_value ){
-            return array('error'=>true, 'message' => INVALID_COORDINATES);
-        }
+        // if(!is_numeric($coordinate[0]) || !is_numeric($coordinate[1]) || $coordinate_3rd_value ){
+        //     return array('error'=>true, 'message' => INVALID_COORDINATES);
+        // }
         // end checker for format coordinate.
 
 
@@ -235,6 +234,20 @@ class query{
 
     }
 
+
+    public function update_display_label(){
+        
+        $request = ($this->Show_field==1) ? 0 : 1;
+
+        $query = $this->db->query("UPDATE Lab_test_template_config SET Show_field='$request'
+        WHERE `Lab_test_template_config`.ID='$this->ID' ");
+        
+        if(!$query){
+            return $this->db->error;
+        }
+
+        return array('error'=>false, 'message' => SUCCESS);
+    }
 
     public function update_label(){
 
@@ -264,7 +277,7 @@ class query{
         // // end checker for coordinate
 
         // checker for max and min coordinate
-        if(strlen($this->Coordinate)>=4){
+        if(strlen($this->Coordinate)>=5){
             return array('error'=>true, 'message' => REACH_MAX_COORDINATES);
         }
         if(strlen($this->Coordinate)<=1){
@@ -273,15 +286,16 @@ class query{
         // end checker for max and min coordinate
 
         // checker for format coordinate
-        $coordinate = str_split($this->Coordinate);
-        $coordinate_3rd_value = !empty($coordinate[2])? !is_numeric($coordinate[2]) : false ;
+        $coordinate = explode (",", $this->Coordinate);
+        // $coordinate_3rd_value = !empty($coordinate[2])? !is_numeric($coordinate[2]) : false 
 
-        if(!ctype_alpha($coordinate[0]) || !is_numeric($coordinate[1]) || $coordinate_3rd_value ){
-            return array('error'=>true, 'message' => INVALID_COORDINATES);
-        }
+        // if(!is_numeric($coordinate[0]) || !is_numeric($coordinate[1]) ){
+        //     return array('error'=>true, 'message' => INVALID_COORDINATES);
+        // }
+
         // end checker for format coordinate.
-
     
+
         $query = $this->db->query("UPDATE Lab_test_template_config 
         SET
         Label='$this->Label',
@@ -334,7 +348,8 @@ class query{
     
         $query = $this->db->query("SELECT * 
         FROM Lab_test_template_config 
-        WHERE `Lab_test_template_config`.Lab_test_id='$this->ID' AND `Lab_test_template_config`.Label LIKE '%$this->Search%'");
+        WHERE `Lab_test_template_config`.Lab_test_id='$this->ID' AND `Lab_test_template_config`.Label 
+        LIKE '%$this->Search%' ORDER BY Lab_test_template_config.Label ASC ");
 
         if(!$query){
             return $this->db->error;

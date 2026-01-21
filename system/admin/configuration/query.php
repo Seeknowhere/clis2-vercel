@@ -208,14 +208,14 @@ class query{
 
     public function add_clinic_test(){
 
-
         if(empty($this->Abbreviation) 
         || empty($this->Description) 
-        || empty($this->Price)
+        || empty($this->Cost)
         || empty($this->File_name)
         ){
             return array('error'=>true, 'message' => REQUIRED_FIELD);
         }
+
 
 
         $query = $this->db->query("SELECT * 
@@ -236,12 +236,12 @@ class query{
 
         $query = $this->db->query("INSERT INTO Lab_test(Abbreviation, 
         Description, 
-        Cost, 
+        Price, 
         File_name, 
         Datetime_created) 
         VALUES('$this->Abbreviation', 
         '$this->Description', 
-        $this->Price, 
+        $this->Cost, 
         '$this->File_name',
         now())
         ");

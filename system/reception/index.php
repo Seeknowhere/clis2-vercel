@@ -185,7 +185,7 @@
                   <th> Status </th>
                   <th> Mode of test </th>
                   <th> Request type </th>
-                  <th class="td-actions"> </th>
+                  <!-- <th class="td-actions"> </th> -->
                 </tr>
               </thead>
               <tbody>
@@ -207,9 +207,6 @@
                         <?php }?>
                       </td>
                       <td> <?php echo ($item->Abbreviation) ?></td>
-                      <td class="td-actions">
-                        <button class="btn btn-small btn-success patient_pick_up" data-patient-id="<?php echo $item->Patient_id?>" data-lab-transaction-id="<?php echo $item->Lab_transaction_id?>"><i class="fa fa-check"></i> VIEW</button>
-                      </td>
                     </tr>
                   <?php }?>
                 <?php }?>
@@ -406,14 +403,68 @@
                   </div>
                   <div class="modal-footer">
                     <div class="row">
-                      <div class="span5">
+                      <div class="span4">
                         &nbsp;                      
                       </div>
-                      <div class="span4">
+                      <div class="span5">
                         <h3 style="float:left; display: inline-block">TOTAL BILL: ₱<span id="total_bill">0</span> </h3>
                         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
                         <button class="btn btn-primary request_patient_btn"><i class="fas fa-money-bill"></i> Bill</button>
-                        <!-- <a href="#view_receipt" role="button" class="btn btn-primary request_patient_btn" data-toggle="modal"><i class="fa fa-money"></i> Bill out</a> -->
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Modal -->
+                <div id="patient_send_out_modal" class="modal hide fade modal-extra-width" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">SEND-OUT FORM/ PATIENT NAME: <span id="sent_out_patient_name"></span></h3>
+                  </div>
+                  <div class="modal-body">
+                  <fieldset class="form-horizontal">
+                    
+                    <div class="control-group">											
+                      <label class="control-label" for="">Lab test:</label>
+                      <div class="controls">
+                        <input type="text" class="span7 " id="lab_test" value="" autofocus>
+                      </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->
+
+                    <div class="control-group">											
+                      <label class="control-label" for="clinic_lab"> laboratory:</label>
+                      <div class="controls">
+                        <input type="text" class="span7 " id="clinic_lab" value="">
+                      </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->
+
+                    <div class="control-group">											
+                      <label class="control-label" for="clinic_location"> location:</label>
+                      <div class="controls">
+                        <input type="text" class="span7 " id="clinic_location" value="">
+                      </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->
+
+                    <div class="control-group">											
+                      <label class="control-label" for="clinic_price"> price:</label>
+                      <div class="controls">
+                        <input type="number" class="span7 " id="clinic_price" value="">
+                        <input type="text" class="" id="user_id" value="<?=$_SESSION['user_data']->ID?>" style="display:none;">
+                      </div> <!-- /controls -->				
+                    </div> <!-- /control-group -->
+
+                </fieldset>
+                  </div>
+                  <div class="modal-footer">
+                    <div class="row">
+                      <div class="span4">
+                        &nbsp;                      
+                      </div>
+                      <div class="span5">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn btn-primary sent_out_patient_btn"><i class="fas fa-paper-plane"></i> Send now</button>
                       </div>
                     </div>
                   </div>

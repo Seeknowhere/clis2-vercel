@@ -1,8 +1,8 @@
-<?php 
+<?php
     include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/header-footer/data.php');
     include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/dashboard/service.php');
 ?>
-<?php 
+<?php
     main_header();
 
     @$get_total_sales_daily = $query->generate_total_sales_daily();
@@ -18,13 +18,15 @@
     @$count_pickup_lab_transaction = count($get_pickup_lab_transaction);
 
     @$total_income = 0;
+
+    // var_dump($_SESSION['user_data']->User_position_id);
 ?>
 <div class="main">
   <div class="main-inner">
     <div class="container">
       <div class="row">
         <div class="span12">
-         <!-- <h1>Dashboard - overview of operation</h1> 
+         <!-- <h1>Dashboard - overview of operation</h1>
          <h1>Dashboard - daily income</h1>
          <h1>Dashboard - stats(number of request, number of ongoing with remarks, number of pick up</h1> -->
 
@@ -42,24 +44,25 @@
                     <div class="stat stat-lab" data-id="2"> LAB ONGOING <i class="fas fa-sync"></i> <span class="value"><?php echo $count_ongoing_lab_transaction?></span> </div>
                     <!-- .stat -->
                     <div class="stat stat-lab" data-id="3"> LAB RELEASE <i class="icon-bullhorn"></i> <span class="value"><?php echo $count_release_lab_transaction?></span> </div>
-                    <!-- .stat --> 
+                    <!-- .stat -->
                     <div class="stat stat-lab" data-id="4"> PATIENT PICK UP <i class="icon-bullhorn"></i> <span class="value"><?php echo $count_pickup_lab_transaction?></span> </div>
-                    <!-- .stat --> 
+                    <!-- .stat -->
                   </div>
                 </div>
-                <!-- /widget-content --> 
+                <!-- /widget-content -->
               </div>
             </div>
           </div>
           <!-- /widget -->
+
          <div class="widget" id="widget-content" hidden>
-	      			
+
 	      			<div class="widget-header">
 	      				<i class="icon-user"></i>
 	      				<h3><span id="request_type_label"></span> PATIENT RECORD </h3>
                 <button type="button " class="pull-right close-table-daily-operation-monitoring">×</button>
 	  				</div> <!-- /widget-header -->
-					
+
 					<div class="widget-content">
           <table class="table table-striped table-bordered action-table" id="lab-request-patient" hidden>
               <thead>
@@ -82,7 +85,7 @@
                       <td> <?php echo @$item->First_name.' '.@$item->Middle_name.' '.@$item->Last_name ?></td>
                       <td> <?php echo @strtoupper($item->Status) ?></td>
                       <td> <?php echo ($item->Abbreviation) ?></td>
-                     
+
                     </tr>
                   <?php }?>
                 <?php }?>
@@ -150,7 +153,7 @@
                   <th> Patient name </th>
                   <th> Status </th>
                   <th> Request type </th>
-                 
+
                 </tr>
               </thead>
               <tbody>
@@ -172,14 +175,15 @@
             </table>
 
 					</div> <!-- /widget-content -->
-						
+
 				</div> <!-- /widget -->
 
+  <?php if ($_SESSION['user_data']->User_position_id==1){?>
 
 
         <div class="widget widget-nopad">
             <div class="widget-header"> <i class=" icon-money"></i>
-              <h3> DAILY TOTAL SALES as of <?php echo date('l jS \of F Y')?></h3>
+              <h3> INCOME as of <?php echo date('l jS \of F Y')?></h3>
             </div>
                 <!-- /widget-header -->
                 <div class="widget-content">
@@ -216,26 +220,26 @@
                         </tr>
                     <?php }?>
                   </tbody>
-                </table> 
+                </table>
                 </div>
               </div>
               <!-- /widget -->
 
 					</div> <!-- /widget-content -->
-						
+
 				</div> <!-- /widget -->
+                <?php }?>
 
         </div>
-        <!-- /span6 --> 
+        <!-- /span6 -->
       </div>
-      <!-- /row --> 
+      <!-- /row -->
     </div>
-    <!-- /container --> 
+    <!-- /container -->
   </div>
-  <!-- /main-inner --> 
+  <!-- /main-inner -->
 </div>
 <!-- /main -->
-<?php 
+<?php
     main_footer ();
 ?>
-

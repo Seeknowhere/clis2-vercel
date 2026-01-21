@@ -8,7 +8,9 @@
     @$patient_record = $query->get_patient_record($_GET['id']);
     @$patient_medical_history = $query->get_patient_medical_history($_GET['id']);
     @$patient_transaction_logs = $query->get_patient_transaction_logs($_GET['id']);
+    @$patient_sent_out_logs = $query->get_patient_sent_out_logs($_GET['id']);
 
+    // var_dump($patient_transaction_logs); 
 ?>
 <div class="main">
   <div class="main-inner">
@@ -123,7 +125,7 @@
          <div class="widget ">
 	      			<div class="widget-header">
 	      				<i style="position: relative; left:15px; margin-right:10px;" class="fas fa-history"></i>
-	      				<h3>PATIENT MEDICAL LABORATORY HISTORY</h3>
+	      				<h3>PATIENT RECEIPT HISTORY</h3>
 	  				</div> <!-- /widget-header -->
 					<div class="widget-content">
           <div class="container" style="">
@@ -133,10 +135,10 @@
                     <tr>
                       <th> # </th>
                       <th> Transaction number </th>
-                      <th> Laboratory test </th>
+                      <!-- <th> Laboratory test </th> -->
                       <th> Status </th>
                       <th> Mode of test </th>
-                      
+                      <th> Date printed</th>
                       <th class="th-actions"> </th>
                     </tr>
                   </thead>
@@ -150,7 +152,7 @@
                         <tr>
                           <td> <?php echo ($key+1) ?></td>
                           <td > <?php echo ($item->Transaction_number) ?></td>
-                          <td> <?php echo @strtoupper($item->Abbreviation).' ('.$item->Description.')' ?></td>
+                          <!-- <td> <?php echo @strtoupper($item->Abbreviation).' ('.$item->Description.')' ?></td> -->
                           <td> <?php echo @strtoupper($item->Status) ?></td>
                           <td> 
                             <?php if($item->Mode_of_test_id==2){?>
@@ -159,6 +161,7 @@
                               <?php echo @strtoupper($item->Mode) ?>
                             <?php }?>
                           </td>
+                          <td> <?php echo date("F j, Y  g:i A", strtotime(@$item->Datetime_request)) ?></td>
                           <td class="td-actions" style="width: 136px">  
                             <button class="btn btn-small btn-success reprint-receipt"  data-transaction-number="<?php echo $item->Transaction_number?>"><i class="fa fa-print"></i> RE-PRINT RECEIPT</button>
                           </td>
@@ -223,6 +226,60 @@
                           </td>
                           <td> <?php echo date("F j, Y  g:i A", strtotime(@$item->Datetime_created)) ?></td>
                           
+                        </tr>
+                      <?php }?>
+                    <?php }?>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+					</div> <!-- /widget-content -->
+				</div> <!-- /widget -->
+        </div>
+        <!-- /span12 --> 
+      </div>
+
+             <!-- /row --> 
+             <div class="row">
+        <div class="span12">
+          <!-- /widget -->
+         <div class="widget ">
+	      			<div class="widget-header">
+	      				<i style="position: relative; left:15px; margin-right:10px;" class="fas fa-tasks"></i>
+	      				<h3>PATIENT SENT OUT LOGS</h3>
+	  				</div> <!-- /widget-header -->
+					<div class="widget-content">
+          <div class="container" style="">
+              <div class="span11  " >
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th> # </th>
+                      <th> User-in-charge</th>
+                      <th> Transaction number </th>
+                      <th> Laboratory test  </th>
+                      <th> Clinic  </th>
+                      <th> Location </th>
+                      <th> Status </th>
+                      <th> Date and time created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php if(empty($patient_sent_out_logs)) {?>
+                      <tr>
+                        <td colspan="8"> NO SEND-OUT TRANSACTION LOG FOUND</td>
+                      </tr>
+                    <?php } else {?>
+                      <?php foreach($patient_sent_out_logs as $key => $item) {?>
+                        <tr>
+                          <td> <?php echo ($key+1) ?></td>
+                          <td > <?php echo strtoupper(@$item->First_name.' '.@$item->Middle_name.' '.@$item->Last_name)  ?></td>
+                          <td > <?php echo (@$item->Transaction_number) ?></td>
+                          <td> <?php echo @strtoupper($item->Lab_test) ?></td>
+                          <td> <?php echo @strtoupper($item->Clinic_name) ?></td>
+                          <td> <?php echo @strtoupper($item->Clinic_location) ?></td>
+                          <td> <?php echo @strtoupper($item->Status) ?></td>
+                          <td> <?php echo date("F j, Y  g:i A", strtotime(@$item->Datetime_created)) ?></td>  
                         </tr>
                       <?php }?>
                     <?php }?>

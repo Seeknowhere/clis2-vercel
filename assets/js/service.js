@@ -81,8 +81,9 @@ $(function () {
                                         '<td>'+value.Sex+'</td>'+
                                         '<td>'+calculateAge(value.Date_of_birth)+'</td>'+
                                         '<td>'+value.Date_of_birth+'</td>'+
-                                        '<td class="td-actions td-more-actions">'+
+                                        '<td class="td-actions td-more-actions" style="width:250px !important;">'+
                                             '<a class=" btn btn-small btn-success" href="'+current_url+'patient-details/index.php?id='+value.ID+'"><i class="fa fa-info-circle"></i> Details</a>'+
+                                            '<a href="#patient_send_out_modal" role="button" class=" btn btn-small btn-success request_patient_modal_btn" data-patient-name="'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'" data-patient-id="'+value.ID+'"  data-toggle="modal"><i class="fa fa-external-link-square-alt"></i> Send Out</a>'+
                                             '<a href="#patient_request_modal" role="button" class=" btn btn-small btn-success request_patient_modal_btn" data-patient-name="'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'" data-patient-id="'+value.ID+'"  data-toggle="modal"><i class="fa fa-paper-plane"></i> Request</a>'+
                                         '</td>'+
                                     '</tr>';
@@ -100,6 +101,92 @@ $(function () {
 
     })
 
+    $('#search_patient_record').keyup(function(){
+        var search  = $(this).val();
+
+        $.ajax({
+            url: root_url+'system/reception/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                Search_patient              :  search,
+                from                        : 'reception',
+                action                      : 'search-patient'
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    var html = "";
+                    $('#patient-search-result-table').prop('hidden', '');
+                    
+                    if(data.length != 0 ){
+                        $.each(data, function( index, value ) {
+                            html+= '<tr>'+
+                                        '<td>'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'</td>'+
+                                        '<td>'+value.Sex+'</td>'+
+                                        '<td>'+calculateAge(value.Date_of_birth)+'</td>'+
+                                        '<td>'+value.Date_of_birth+'</td>'+
+                                        '<td class="td-actions td-more-actions">'+
+                                            '<a class=" btn btn-small btn-success" href="'+current_url+'patient-details/index.php?id='+value.ID+'"><i class="fa fa-list"></i> View logs</a>'+
+                                        '</td>'+
+                                    '</tr>';
+                        });
+                    }else{
+                        html+= '<tr >'+
+                                '<td colspan="2">NO FOUND PATIENT RECORD</td>'+
+                                '</tr>';
+                    }
+                  
+                    $('#patient-search-result-value').html(html)
+                }
+            }
+        });
+
+    })
+
+    $('#search_lab_logs').on('change',function(){
+        var search  = $(this).val();
+        $.ajax({
+            url: root_url+'system/laboratory/patient-records/patient-details/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                search                      :  search,
+                patient_id                  :  $('#patient_id').val(),
+                from                        : 'lab-logs',
+                action                      : 'search-lab-logs'
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    var html = "";
+                    $('#patient-search-result-table').prop('hidden', '');
+                    
+                    if(data.length != 0 ){
+                        $.each(data, function( index, value ) {
+                            html+= '<tr>'+
+                                        '<td>'+value.Label+'</td>'+
+                                        '<td>'+value.Coordinate+'</td>'+
+                                        '<td>'+((value.Value!=undefined)? value.Value : "EMPTY") +'</td>'+
+                                        '<td>'+value.Datetime_created+'</td>'+
+                                    '</tr>';
+                        });
+                    }else{
+                        html+= '<tr >'+
+                                '<td colspan="2">NO FOUND LAB LOG</td>'+
+                                '</tr>';
+                    }
+                    console.log(data);
+                    $('#patient-lab-result').html(html)
+                }
+            }
+        });
+
+    })
+
+
     function calculateAge(date_of_birth){
         date_of_birth = new Date(date_of_birth);
         var today = new Date();
@@ -113,6 +200,53 @@ $(function () {
 
     if(split_url[5]=="reception"){
         loadPatientRecords();
+    }
+    if(split_url[6]=="patient-records"){
+        loadPatientRecordsLab();
+    }
+
+    // console.log(split_url);
+    
+
+    function loadPatientRecordsLab(){
+        $.ajax({
+            url: root_url+'system/reception/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                Search_patient              :  "",
+                from                        : 'reception',
+                action                      : 'search-patient'
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    var html = "";
+                    $('#patient-search-result-table').prop('hidden', '');
+                    
+                    if(data.length != 0 ){
+                        $.each(data, function( index, value ) {
+                            html+= '<tr>'+
+                                '<td>'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'</td>'+
+                                '<td>'+value.Sex+'</td>'+
+                                '<td>'+calculateAge(value.Date_of_birth)+'</td>'+
+                                '<td>'+value.Date_of_birth+'</td>'+
+                                '<td class="td-actions td-more-actions">'+
+                                '<a class=" btn btn-small btn-success" href="'+current_url+'patient-details/index.php?id='+value.ID+'"><i class="fa fa-list"></i> View logs</a>'+
+                                '</td>'+
+                            '</tr>';
+                        });
+                    }else{
+                        html+= '<tr >'+
+                                '<td colspan="2">NO FOUND PATIENT RECORD</td>'+
+                                '</tr>';
+                    }
+                  
+                    $('#patient-search-result-value').html(html)
+                }
+            }
+        });
     }
 
 
@@ -140,8 +274,9 @@ $(function () {
                                         '<td>'+value.Sex+'</td>'+
                                         '<td>'+calculateAge(value.Date_of_birth)+'</td>'+
                                         '<td>'+value.Date_of_birth+'</td>'+
-                                        '<td class="td-actions td-more-actions">'+
+                                        '<td class="td-actions td-more-actions" style="width:250px !important;">'+
                                             '<a class=" btn btn-small btn-success" href="'+current_url+'patient-details/index.php?id='+value.ID+'"><i class="fa fa-info-circle"></i> Details</a>'+
+                                            '<a href="#patient_send_out_modal" role="button" class=" btn btn-small btn-success request_patient_modal_btn" data-patient-name="'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'" data-patient-id="'+value.ID+'"  data-toggle="modal"><i class="fa fa-external-link-square-alt"></i> Send Out</a>'+
                                             '<a href="#patient_request_modal" role="button" class=" btn btn-small btn-success request_patient_modal_btn" data-patient-name="'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'" data-patient-id="'+value.ID+'"  data-toggle="modal"><i class="fa fa-paper-plane"></i> Request</a>'+
                                         '</td>'+
                                     '</tr>';
@@ -203,10 +338,11 @@ $(function () {
         var patient_name = $(this).data('patient-name');
 
         $('#requesting_patient_name').text(patient_name);
+        $('#sent_out_patient_name').text(patient_name);
         $('#requesting_receipt_patient_name').text(patient_name);
 
         $('.request_patient_btn').data('patient-id', patient_id);
-        
+        $('.sent_out_patient_btn').data('patient-id', patient_id);  
     })
 
     var cost = 0;
@@ -285,6 +421,80 @@ $(function () {
                     // location.reload(true);
                     $('#view_receipt').modal();
                     $('#load_receipt').attr('src', 'http://localhost/clis/system/reception/receipt/index.php?tran_num='+data.tran_number);
+                }
+
+            }
+        });
+    
+    })
+
+    $(document).on('click', '.sent_out_patient_btn', function(){
+        var patient_id = $(this).data('patient-id');
+
+        $.ajax({
+            url: root_url+'system/reception/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                Patient_id                  : patient_id,
+                user_id                     : $('#user_id').val(),
+                lab_test_name               : $('#lab_test').val(),
+                clinic_lab                  : $('#clinic_lab').val(),
+                clinic_location             : $('#clinic_location').val(), 
+                clinic_price                : $('#clinic_price').val(),                   
+                from                        : 'reception',
+                action                      : 'patient-send-out'
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    
+                    alert(data.message);
+                    location.reload(true);
+                    // $('#view_receipt').modal();
+                    // $('#load_receipt').attr('src', 'http://localhost/clis/system/reception/receipt/index.php?tran_num='+data.tran_number);
+                }
+
+            }
+        });
+    
+    })
+
+    $(document).on('click', '.sentout_patient_btn', function(){
+        var patient_id = $(this).data('patient-id');
+
+        var checkbox_single_lab_test = [];
+        var checkbox_package_lab_test = [];
+
+        $('.checkbox_single_lab_test').each(function(index, value){
+            if($(this).is(":checked")){
+                checkbox_single_lab_test.push($(this).val())
+            }
+        });
+
+        $('.checkbox_package_lab_test').each(function(index, value){
+            if($(this).is(":checked")){
+                checkbox_package_lab_test.push($(this).val())
+            }
+        });
+
+        $.ajax({
+            url: root_url+'system/reception/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                Patient_id                  : patient_id,
+                Lab_single_test_id          : JSON.stringify(checkbox_single_lab_test),
+                Lab_package_test_id         : JSON.stringify(checkbox_package_lab_test),
+                from                        : 'reception',
+                action                      : 'patient-request-send-out'
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    alert(data.message);
                 }
 
             }
@@ -386,10 +596,10 @@ $(function () {
                     $.each(data, function( index, value ) {
                         var status=(value.Active==1)?'ACITVE':'DEACTIVITED'; 
                         html+= '<tr>'+
-                                    '<td>'+status+'</td>'+
                                     '<td>'+value.Username+'</td>'+
                                     '<td>'+value.First_name+' '+value.Middle_name+' '+value.Last_name+'</td>'+
                                     '<td>'+value.Position+'</td>'+
+                                    '<td>'+status+'</td>'+
                                     '<td class="td-actions">'+
                                         '<a class="btn btn-small btn-success" href="'+current_url+'profile/index.php?id='+value.ID+'" role="button" ><i class="fa fa-edit"></i> Edit</a>'+
                                     '</td>'+
@@ -730,9 +940,9 @@ $(function () {
                                     '<td>'+value.Price+'</td>'+
                                     '<td>'+ ((value.Available==1) ? "YES" : "NO" )+'</td>'+
                                     '<td>'+value.Datetime_created+'</td>'+
-                                    '<td class="td-actions">'+
-                                        '<a class="btn btn-small btn-primary" href="'+root_url+'system/admin/configuration/edit-lab-test" role="button" ><i class="fa fa-edit"></i> Edit</a>'+
-                                    '</td>'+
+                                    // '<td class="td-actions">'+
+                                    //     '<a class="btn btn-small btn-primary" href="'+root_url+'system/admin/configuration/edit-lab-package-test?id='+value.ID+'" role="button" ><i class="fa fa-edit"></i> Edit</a>'+
+                                    // '</td>'+
                                 '</tr>';
 
                     });
@@ -1001,6 +1211,7 @@ $(function () {
                                 +
                             '</td>'+
                             '<td>'+value.Datetime_created+'</td>'+
+                            '<td class="td-actions"><button class="btn btn-small '+((value.Show_field==1)?"btn-primary":"btn-danger")+'  show-label" id="delete-label-'+value.ID+'" data-id="'+value.ID+'" data-show-field="'+value.Show_field+'" role="button" ><i class="fa fa-eye"></i> '+((value.Show_field==1)?"Visible":"Invisible")+'</button></td>'+
                             '<td class="td-actions td-more-actions">'+
                                 '<button class="btn btn-small btn-danger delete-label" id="delete-label-'+value.ID+'" data-id="'+value.ID+'" role="button" ><i class="fa fa-trash"></i> Delete</button>'+
                                 '<button class="btn btn-small btn-primary update-label" id="update-label-'+value.ID+'" data-lab-test-id="'+value.Lab_test_id+'" data-id="'+value.ID+'" role="button" ><i id="btn-icon-label-'+value.ID+'" class="fa fa-edit"></i> <span id="btn-text-label-'+value.ID+'"> Update</button>'+
@@ -1017,6 +1228,33 @@ $(function () {
         
         $('#label-result-value').html(html);
     }
+    
+    $(document).on('click', '.show-label', function(){
+
+        var id = $(this).data('id');
+        var show_field = $(this).data('show-field');
+
+        $.ajax({
+            url: root_url+'system/admin/configuration/edit-lab-test/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                id                           :   id,
+                show_field                   :   show_field,
+                User_username                :   $('#user_profile_update_username').val(),
+                from                         :  'edit-lab-test',
+                action                       :  'update-displays'
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    alert(data.message);
+                    location.reload(true);
+                }
+            }
+        });
+    })
 
     $('#update_user_details').on('click', function(){
         $.ajax({
@@ -1218,7 +1456,15 @@ $(function () {
         var lab_test_id = $(this).data('lab-test-id');
         var confirm_type = $(this).data('confirm-type');
         var json = JSON.stringify(workbook.toJSON());  
+        var get_result = [];
 
+        $('.lab-test-template').each(function(index, value){
+            get_result.push(
+                [
+                    $(this).data('coordinate'),
+                    $(this).val()
+                ]);
+        })
         // alert(lab_test_id);
 
         if(confirm_type=="accept"){
@@ -1253,7 +1499,7 @@ $(function () {
                     Lab_transaction_id      : lab_transaction_id,
                     Patient_id              : patient_id,
                     Lab_test_id             : lab_test_id,
-                    Json                    : json ,
+                    Lab_result              : JSON.stringify(get_result),
                     from                    : 'laboratory',
                     action                  : 'release-result'
                 },
@@ -1363,23 +1609,55 @@ $(function () {
             success: function(data) {
 
                 var flag = true;
-                setInterval(function(){ 
-                    if(flag){
-                        template(data);
-                        flag=false;
-                    }
-                }, 400);
+                var html = "";
+
+                $(data).each(function(index, value){
+
+                    html+= '<div class="control-group" style="margin:0 auto;">'+								
+                                '<label class="control-label" for="'+value.Label+'">'+value.Label+' :</label>'+
+                                '<div class="controls">'+
+                                    '<input type="text" class="span5 lab-test-template" data-coordinate="'+value.Coordinate+'" data-lab-test-template-id="'+value.ID+'" value="" placeholder="Enter value.">'+
+                                '</div>'+
+                            '</div>';
+                    
+                }); 
+                // console.log(html);
+                $('#lab-test-template').html(html);
+
+                // setInterval(function(){ 
+                //     if(flag){
+                //         template(data);
+                //         flag=false;
+                //     }
+                // }, 400);
                 
             }
         });
 
     })
 
-    var spreadsheet = new GC.Spread.Sheets.Workbook(document.getElementById("lab-test-template-preview"),{sheetCount:1});
+
+
+
+    // var spreadsheet = new GC.Spread.Sheets.Workbook(document.getElementById("lab-test-template-preview"),{sheetCount:1});
+
+    // start grape city admin side
+    // var filename = $('#excel_template').data('filename');
+
+
+    var workbooks = new GC.Spread.Sheets.Workbook(document.getElementById("lab-test-template-preview"),{sheetCount:3});  
+    var workbooks_export;
+    var workbooks_import;
+    var activeSheet = workbooks.getActiveSheet();
 
     $(document).on('click', '.lab_ready_to_pick_up_preview', function(){
 
-        var activeSheet = spreadsheet.getActiveSheet();
+        $.support.cors = true;
+        // alert();
+        // var activeSheet = workbooks.getActiveSheet();
+        excelIO = new GC.Spread.Excel.IO();
+
+        // var activeSheet = spreadsheet.getActiveSheet();
         var patient_id = $(this).data('patient-id');
         var lab_test_id = $(this).data('lab-test-id');
         var patient_name = $(this).data('patient-name');
@@ -1401,21 +1679,178 @@ $(function () {
             },
             success: function(data) {
                 var flag = true;
+
                 $('#patient_releasing_modal_preview').modal();
+
+                // setInterval(function(){ 
+                //     if(flag){
+                //         activeSheet.suspendPaint();
+                //         // spreadsheet.fromJSON(JSON.parse(data.Json));
+                //         activeSheet.getCell(10,02).text("HELLO"); 
+                //         activeSheet.resumePaint();
+                //         flag=false;
+                //     }
+                // }, 500);
+                // console.log(data);
+                var excelUrl = root_url+"assets/microsoft-office/excel-template/"+data[0].File_name;
+    
+                var oReq = new XMLHttpRequest();
+            
+                oReq.open('get', excelUrl, true);
+                oReq.responseType = 'blob';
+                oReq.onload = function () {
+                    var blob = oReq.response;   
+            
+                    excelIO.open(blob, function(json){
+                        jsonData = json;
+
+                        setInterval(function(){ 
+                            if(flag){
+
+                                activeSheet.suspendPaint();
+
+                                
+                                workbooks.fromJSON(json);
+
+                                workbooks_export = JSON.stringify(workbooks.getSheet(1).toJSON());
+                                activeSheet.resumePaint();
+                                
+                                workbooks.removeSheet(0);
+                                workbooks.setActiveSheet("1");
+
+                                // activeSheet.getCell(05,10).text("HELLO");
+
+                                flag=false;
+                            }
+                        }, 500);
+                        workbooks.refresh();
+                        resolve(workbook);
+                    });
+
+                };
+                oReq.send();
+
+
+                var flag1 = true; 
+                var today = new Date();
+                var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
                 setInterval(function(){ 
-                    if(flag){
-                        activeSheet.suspendPaint();
-                        spreadsheet.fromJSON(JSON.parse(data.Json));
-                        activeSheet.resumePaint();
-                        flag=false;
+                    if(flag1){
+                        var activeSheet = workbooks.getActiveSheet();
+                        var requirement = ["Name", "Date", "Age", "Gender", "Medtech"];
+                        var alphabet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+                        $(data).each(function(index,value){
+
+                            var split = (value.Coordinate).split(',');
+
+                            var letterPosition = alphabet.indexOf(split[0]);
+
+                            if(value.Label=="Name"){
+                                value.Value = patient_name 
+                            }
+                            if(value.Label=="Date"){
+                                value.Value =  date;
+                            }
+                            if(value.Label=="Age"){
+                                value.Value = calculateAge(value.Date_of_birth);
+                            }
+                            if(value.Label=="Gender"){
+                                value.Value = "Male" 
+                            }
+                            if(value.Label=="Medtech"){
+                                value.Value = ($('#medtech').val()).toUpperCase()+", RMT";
+                            }
+
+                            // console.log(split[1]+","+letterPosition+" - "+value.Value);
+                            // activeSheet.setValue(14, 4, "SAMPLE");
+
+                            // if(value.Type == "Gender"){
+                            //     if(value.Sex == "Male"){
+                            //         split[1] = parseInt(split[1]);
+                            //     }
+                            //     else if (value.Sex == "Female"){
+                            //         split[1] = parseInt(split[1])+1;
+                            //     }
+                            // }
+                            // console.log(split[1]);
+                            // var column = 0;
+                            // if(value.Abbreviation=="CBC"){
+                            //     column = (split[1]);
+                            //     // console.log(value.Abbreviation);
+                            // }else{
+                            //     column = (split[1]-1);
+                            // }
+
+                            column = (split[1]-1);
+                            activeSheet.setValue( column , letterPosition, value.Value);
+
+                        });
+
+                        // activeSheet.setValue(13, 4, "SAMPLE");
+                        
+                        // activeSheet.setValue(1, 1, "HELLO");
+
+
+                        // var activeSheet = workbooks.getActiveSheet();
+
+                        // // sheet.options.gridline = {color:"red", showVerticalGridline: true, showHorizontalGridline: false};
+                        // // activeSheet.options.gridline.showHorizontalGridline = false;
+                        // // activeSheet.options.gridline.showVGridline = false;
+                        // activeSheet.options.rowHeaderVisible = false;
+                        // activeSheet.options.colHeaderVisible = false;
+
+                        // console.log(activeSheet.options.gridline);   
+
+                        flag1=false;
                     }
-                }, 500);
-   
+                }, 1000);
+
             }
         });
-
-
     })
+
+
+    $('#print_excel').on('click', function(){
+
+        // if($('#lab-test-template-preview').length){
+            
+        //     $(this).attr("id","lab-test-template-preview-new");
+        //     // $(this).attr("id","lab-test-template-preview-new");
+
+            
+        // }
+        // var workbooks1 = new GC.Spread.Sheets.Workbook(document.getElementById("lab-test-template-preview-new"),{sheetCount:3});  
+
+
+        // var activeSheet = workbooks1.getActiveSheetIndex();
+
+        // var printInfo = activeSheet.printInfo();
+        // printInfo.showGridLine(false);
+        // activeSheet.(false);
+        // activeSheet.options.setColumnHeaderVisible(false);
+        // activeSheet.options.gridline.showHorizontalGridline = false;
+        // activeSheet.options.gridline.showVerticalGridline = false;
+        // console.log(activeSheet.options.gridline);
+
+        
+        // workbooks1.getSheet(1).fromJSON(JSON.parse(workbooks_export));
+
+
+        // activeSheet.options.rowHeaderVisible = false;
+        // activeSheet.options.colHeaderVisible = false;
+
+        var activeSheet = workbooks.getActiveSheet();
+        activeSheet.options.gridline.showHorizontalGridline = false;
+        activeSheet.options.gridline.showVerticalGridline = false;
+ 
+        // activeSheet.options.gridline = true;
+        // console.log( activeSheet ); 
+
+        
+        // activeSheet
+        workbooks.print(0);
+    })
+
 
     //unused
     function loadJSON(file, callback) {  
@@ -1563,21 +1998,41 @@ $(function () {
       }
     
 
+      $('.notify').on('click', function(){
+        var patient_id = $(this).data('patient-id');
+        $.ajax({
+            url: root_url+'system/laboratory/transaction/service.php',
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                patient_id              : patient_id,
+                from                    : 'laboratory',
+                action                  : 'notify'
+            },
+            beforeSend: function(data){
+                $('#loading').css('display', 'block');
+            },
+            success: function(data) {
+                if(data.error){
+                    alert(data.message);
+                }else{
+                    alert(data.message);
+                    // sendStatus("OK");
+                    // location.reload(true);
+
+                }
+            }
+            
+        });
+    });
 
     $('.lab_ready_to_pick_up').on('click', function(){
-        var spreadsheetToprint = new GC.Spread.Sheets.Workbook(document.getElementById("lab-test-template-preview"),{sheetCount:1});
-        var activeSheetToprint = spreadsheetToprint.getActiveSheet();
-        var printInfoToprint = new GC.Spread.Sheets.Print.PrintInfo();
+
         var lab_transaction_id = $(this).data('lab-transaction-id');
         var lab_test_id = $(this).data('lab-test-id');
         var patient_id = $(this).data('patient-id');
-
-        
-        var reader = new FileReader();
-
-        activeSheetToprint.suspendPaint();
-
         $.ajax({
+
             url: root_url+'system/laboratory/transaction/service.php',
             type: "POST",
             dataType: "JSON",
@@ -1595,61 +2050,107 @@ $(function () {
                 if(data.error){
                     alert(data.message);
                 }else{
+                    alert(data.message);
+
+                    var $a = $("<a>");
+                    $a.attr("href",data.file);
+                    $("body").append($a);
+                    $a.attr("download",data.filename);
+                    $a[0].click();
+                    $a.remove();
                     
-                    spreadsheetToprint.fromJSON(JSON.parse(data.Json));
-                    activeSheetToprint.resumePaint();
-
-                    // spreadsheetToprint.savePDF(function (blob) {
-                    //     reader.onload = function () {     
-                    //         var b64 = reader.result.replace(/^data:.+;base64,/, '');                                
-                    //         var datauri = "data:application/pdf;base64," + b64;
-                    //         Email.send({
-                    //             Host : "smtp.gmail.com",
-                    //             Username : "clis.st.ezekiel.moreno@gmail.com",
-                    //             Password : "T^vYhhp$aeqOfE^6@O#7CXK$BRoCvQaSMtwdJ80nMJgKowna%!",
-                    //             To : data.Email_address,
-                    //             From : "clis.st.ezekiel.moreno@gmail.com",
-                    //             Subject : "RESULT - St. Ezekiel Moreno Clinic Laboratory ",
-                    //             Body : "Hi, Good day. We sent your "+data.Abbreviation+" ("+data.Description+")"
-                    //             +" as a result taken in our laboratory and serve your soft copy.",
-                    //             Attachments : [
-                    //                 {
-                    //                     name : data.Abbreviation+" ("+data.Description+")"+".pdf",
-                    //                     data : datauri
-                    //                 }],
-                    //         }).then(
-                    //             message => done(message)
-                    //         );  
-                    //     };
-                    //     reader.readAsDataURL(blob);
-                    // }, function (error) {
-                    //     console.log(error); 
-                    // });
-
-                    sendStatus("NOT OKAY");
-
-                    printInfoToprint.showRowHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
-                    printInfoToprint.showColumnHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
+                    sendStatus("OK");
                     
-                    spreadsheetToprint.print(0);
-                            
+                    // location.reload(true);
                 }
             }
+            
         });
-    })
 
+        // var spreadsheetToprint = new GC.Spread.Sheets.Workbook(document.getElementById("lab-test-template-preview"),{sheetCount:1});
+        // var activeSheetToprint = spreadsheetToprint.getActiveSheet();
+        // var printInfoToprint = new GC.Spread.Sheets.Print.PrintInfo();
+        // var lab_transaction_id = $(this).data('lab-transaction-id');
+        // var lab_test_id = $(this).data('lab-test-id');
+        // var patient_id = $(this).data('patient-id');
+
+        
+        // var reader = new FileReader();
+
+        // activeSheetToprint.suspendPaint();
+
+        // $.ajax({
+        //     url: root_url+'system/laboratory/transaction/service.php',
+        //     type: "POST",
+        //     dataType: "JSON",
+        //     data: {
+        //         Lab_test_id             : lab_test_id,
+        //         Lab_transaction_id      : lab_transaction_id,
+        //         Patient_id              : patient_id,
+        //         from                    : 'laboratory',
+        //         action                  : 'ready-to-pickup'
+        //     },
+        //     beforeSend: function(data){
+        //         $('#loading').css('display', 'block');
+        //     },
+        //     success: function(data) {
+        //         if(data.error){
+        //             alert(data.message);
+        //         }else{
+                    
+        //             spreadsheetToprint.fromJSON(JSON.parse(data.Json));
+        //             activeSheetToprint.resumePaint();
+
+        //             // spreadsheetToprint.savePDF(function (blob) {
+        //             //     reader.onload = function () {     
+        //             //         var b64 = reader.result.replace(/^data:.+;base64,/, '');                                
+        //             //         var datauri = "data:application/pdf;base64," + b64;
+        //             //         // Email.send({
+        //             //         //     Host : "smtp.gmail.com",
+        //             //         //     Username : "clis.st.ezekiel.moreno@gmail.com",
+        //             //         //     Password : "T^vYhhp$aeqOfE^6@O#7CXK$BRoCvQaSMtwdJ80nMJgKowna%!",
+        //             //         //     To : data.Email_address,
+        //             //         //     From : "clis.st.ezekiel.moreno@gmail.com",
+        //             //         //     Subject : "RESULT - St. Ezekiel Moreno Clinic Laboratory ",
+        //             //         //     Body : "Hi, Good day. We sent your "+data.Abbreviation+" ("+data.Description+")"
+        //             //         //     +" as a result taken in our laboratory and serve your soft copy.",
+        //             //         //     Attachments : [
+        //             //         //         {
+        //             //         //             name : data.Abbreviation+" ("+data.Description+")"+".pdf",
+        //             //         //             data : datauri
+        //             //         //         }],
+        //             //         // }).then(
+        //             //         //     message => done(message)
+        //             //         // );
+        //             //     };
+        //             //     reader.readAsDataURL(blob);
+        //             // }, function (error) {
+        //             //     console.log(error); 
+        //             // });
+
+        //             sendStatus("OK");
+
+        //             printInfoToprint.showRowHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
+        //             printInfoToprint.showColumnHeader(GC.Spread.Sheets.Print.PrintVisibilityType.hide);
+                    
+        //             spreadsheetToprint.print(0);
+                            
+        //         }
+        //     }
+        // });
+    })
 
 
     function sendStatus(message){
         var flag = true;
-
+   
         if(message=="OK"){
             $('#loading_text').css('display', 'none');
             $('#email_sending').css('display', 'none');
             $('#sms_sending').css('display', 'none');
             
             $('#email_sent').css('display', 'block');
-            $('#sms_failed').css('display', 'block');
+            $('#sms_sent').css('display', 'block');
         }else{
             $('#loading_text').css('display', 'none');
             $('#email_sending').css('display', 'none');
@@ -1751,7 +2252,7 @@ $(function () {
 
 
     // report
-
+    var previous_data = [];
     $('#generate_total_sales').on('click', function(){
 
         var lab_transaction_id = $(this).data('lab-transaction-id');
@@ -1772,11 +2273,41 @@ $(function () {
    
                 var graph_label = [];
                 var graph_value = [];
+                var html = '';
+                var income = 0;
+                var expenses = 1000;
+                var total_sales = 0;
+                var total_expenses = 0;
+                var total_income = 0;
+
                 $(data).each(function(index, value){
                     graph_label.push(value.Abbreviation);
                     graph_value.push(parseInt(value.Price));
+                    income  = value.Price - expenses;
+                    html+= '<tr>'+
+                                '<td>'+(index+1)+'</td>'+
+                                '<td>'+value.Abbreviation+'</td>'+
+                                '<td>'+value.Qty+'</td>'+
+                                '<td>'+value.Price+'</td>'+
+                            '</tr>';
+
+                            total_sales+= parseInt(value.Price);
+                            total_expenses+=parseInt(expenses);
+                            total_income+=parseInt(income);
+
+                            if (index === data.length - 1) {
+                            html+=  '<tr>'+
+                                        '<td></td>'+
+                                        '<td></td>'+
+                                        '<td></td>'+
+                                        '<td>'+total_sales+' overall</td>'+
+                                    '</tr>';
+                            }
+                        
                 })
 
+                // console.log(html);
+                $('#lab-test-reports').html(html);
                 // console.log(graph_label);
                 // console.log(graph_value);
 
@@ -1789,13 +2320,25 @@ $(function () {
                                 data: graph_value
                             }
                         ]
-            
                 }
+
+                // console.log(graph_value);
+       
+                var generate = true;
+                $(previous_data).each(function (index, value){
+                    if(value[index]==graph_value[index]){
+                        generate = false;
+                    }
+                    // console.log(value[index]==graph_value[index]);
+                })
 
                 if(data.length!=0){
                     new Chart(document.getElementById("bar-chart").getContext("2d")).Bar(barChartData);
-                    $('#lab_test_total_sales').prop('hidden','')
+                    $('#lab_test_total_sales').prop('hidden','');
+
                 }
+                generate = true;
+                previous_data.push(graph_value);
 
             }
         });
