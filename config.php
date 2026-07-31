@@ -18,6 +18,15 @@ class config{
 
 		$this->conn = new mysqli($this->server, $this->username, $this->pass, $this->db, $this->port);
 		date_default_timezone_set('Asia/Manila');
+
+		// This app was written against MySQL/MariaDB defaults that allow
+		// GROUP BY queries to return an arbitrary row's value for columns
+		// not in the GROUP BY clause or an aggregate function (several
+		// queries across the codebase rely on this, including some using
+		// SELECT *). Modern MySQL enables ONLY_FULL_GROUP_BY by default,
+		// which rejects those queries outright. Relax it for this
+		// connection instead of rewriting every affected query.
+		$this->conn->query("SET SESSION sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''))");
     }
 
 	public function getConnection(){
