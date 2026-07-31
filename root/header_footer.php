@@ -65,9 +65,7 @@
 </div> <!-- /navbar -->
 <?php
     }
-?>
 
-<?php
     function main_footer(){
 ?>
 <script src="<?php echo root_url()?>assets/js/jquery-1.7.2.min.js"></script>
