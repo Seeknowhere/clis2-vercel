@@ -9,11 +9,11 @@
  * like /config.php or /db/clis_db.sql from being served as plain text.
  */
 
-// This legacy codebase has stray whitespace between ?> / <?php tag
-// boundaries in a few places, which produces output before header()/
-// session_start() calls run. Buffering output here means nothing is
-// actually sent to the client until the script ends, so those calls
-// always succeed regardless of where such whitespace hides.
+// This legacy codebase has stray whitespace between PHP closing and
+// reopening tags in a few places, which produces output before
+// header()/session_start() calls run. Buffering output here means
+// nothing is actually sent to the client until the script ends, so
+// those calls always succeed regardless of where such whitespace hides.
 ob_start();
 
 define('ROOT_PATH', dirname(__DIR__) . '/');
