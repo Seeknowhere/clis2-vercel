@@ -1,12 +1,12 @@
-<?php
+﻿<?php
 /**
  * Created by PhpStorm.
  * User: Hitesh
  * Date: 25-Dec-17
  * Time: 8:09 PM
  */
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/reception/service.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/library/fpdf/fpdf.php');
+include_once(ROOT_PATH.'system/reception/service.php');
+include_once(ROOT_PATH.'root/library/fpdf/fpdf.php');
 
 if(empty($_GET['tran_num'])){
     header("Location:". root_url().'system/reception' );
@@ -23,7 +23,7 @@ class PDF_reciept extends FPDF {
 
     function Header() {
         $this->SetFont('Arial', 'B', 10);
-        $this->Image($_SERVER['DOCUMENT_ROOT'].'/clis/assets/img/company_logo.png',11,10,-200);
+        $this->Image(ROOT_PATH.'assets/img/company_logo.png',11,10,-200);
         $this->Cell(0, 1, "ST. EZEKIEL MORENO CLINICAL LABORATORY", 0, 1, 'C', false);
         $this->Cell(0, 7, "Prk. St. Ezekiel Moreno, Phase III, Brgy Handumanan, Bacolod City", 0, 1, 'C', false);
         $this->Cell(0, 1, "Contact #: 732-XXXX/09XXXXXXXXX", 0, 1, 'C', false);

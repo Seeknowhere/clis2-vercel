@@ -1,5 +1,5 @@
-<?php
-	include_once($_SERVER['DOCUMENT_ROOT'].'/clis/config.php');
+﻿<?php
+	include_once(ROOT_PATH.'config.php');
 	
     function main_header(){
 ?>

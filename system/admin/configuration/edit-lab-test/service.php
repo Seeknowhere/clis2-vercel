@@ -1,7 +1,7 @@
-<?php
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/message.php');
+﻿<?php
+include_once(ROOT_PATH.'root/message.php');
 
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/admin/configuration/edit-lab-test/query.php');
+include_once(ROOT_PATH.'system/admin/configuration/edit-lab-test/query.php');
 
 
 $query = new query();

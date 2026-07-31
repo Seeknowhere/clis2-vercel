@@ -1,6 +1,6 @@
 $(function () {
 
-    var root_url = window.location.origin+"/clis/";
+    var root_url = window.location.origin+"/";
     var current_url = window.location.href.match(/^.*\//);
     var check_id_url = ((window.location.href).substring((window.location.href).lastIndexOf('/') + 1)).match(/\d/g);
     var id_url = (check_id_url===null) ? null : check_id_url.toString();

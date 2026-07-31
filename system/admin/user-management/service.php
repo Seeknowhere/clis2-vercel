@@ -1,6 +1,6 @@
-<?php
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/message.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/admin/user-management/query.php');
+﻿<?php
+include_once(ROOT_PATH.'root/message.php');
+include_once(ROOT_PATH.'system/admin/user-management/query.php');
 
 $query = new query();
 

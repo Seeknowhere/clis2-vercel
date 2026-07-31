@@ -1,12 +1,19 @@
-<?php
+﻿<?php
 class config{
-	private $server = "localhost";
-	private $username = "root";
-	private $pass = '';
-	private $db = "clis_db";
+	private $server;
+	private $username;
+	private $pass;
+	private $db;
 	private $conn = null;
 
 	public function __construct(){
+		// Falls back to the old local XAMPP defaults when the env vars
+		// aren't set, so this still works unchanged on localhost.
+		$this->server = getenv('DB_HOST') ?: 'localhost';
+		$this->username = getenv('DB_USER') ?: 'root';
+		$this->pass = getenv('DB_PASS') ?: '';
+		$this->db = getenv('DB_NAME') ?: 'clis_db';
+
 		$this->conn = new mysqli($this->server, $this->username, $this->pass, $this->db);
 		date_default_timezone_set('Asia/Manila');
     }
@@ -17,11 +24,11 @@ class config{
 }
 
 function root_url(){
-	return 'http://localhost/clis/';
+	return '/';
 }
 
 function document_url(){
-	return $_SERVER['DOCUMENT_ROOT'].'/clis/';
+	return ROOT_PATH.'';
 }
 
 

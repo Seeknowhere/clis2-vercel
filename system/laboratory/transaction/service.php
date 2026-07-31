@@ -1,10 +1,10 @@
-<?php
+﻿<?php
 
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/message.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/library/excel/PHPExcel.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/library/excel/PHPEXCEL/IOFactory.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/library/phpmailer/PHPMailerAutoload.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/laboratory/transaction/query.php');
+include_once(ROOT_PATH.'root/message.php');
+include_once(ROOT_PATH.'root/library/excel/PHPExcel.php');
+include_once(ROOT_PATH.'root/library/excel/PHPEXCEL/IOFactory.php');
+include_once(ROOT_PATH.'root/library/phpmailer/PHPMailerAutoload.php');
+include_once(ROOT_PATH.'system/laboratory/transaction/query.php');
 
 
 $query = new query();
@@ -101,7 +101,7 @@ try{
 
             $objReader = PHPExcel_IOFactory::createReader('Excel2007');
 
-            $objPHPExcel = $objReader->load($_SERVER['DOCUMENT_ROOT']."/clis/assets/microsoft-office/excel-template/".$data[0]->File_name);
+            $objPHPExcel = $objReader->load(ROOT_PATH."assets/microsoft-office/excel-template/".$data[0]->File_name);
 
             $objPHPExcel->setActiveSheetIndex(0);
             // Define Values

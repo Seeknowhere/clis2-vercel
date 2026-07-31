@@ -1,5 +1,5 @@
-<?php
-    include_once($_SERVER['DOCUMENT_ROOT'].'/clis/config.php');
+﻿<?php
+    include_once(ROOT_PATH.'config.php');
 
     if(!isset($_SESSION)) { 
       session_start();
@@ -73,15 +73,15 @@
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-        <li class="<?php echo (strtolower($url[3])=="dashboard") ? "active" : "" ?>"><a href="<?php echo root_url()?>system/dashboard"><i class="icon-dashboard"></i><span>DASHBOARD</span> </a> </li>
+        <li class="<?php echo (strtolower($url[2])=="dashboard") ? "active" : "" ?>"><a href="<?php echo root_url()?>system/dashboard"><i class="icon-dashboard"></i><span>DASHBOARD</span> </a> </li>
         <?php if ($_SESSION["user_data"]->User_position_id==1){?>
-        <li class="<?php echo (strtolower($url[3])=="report") ? "active" : "" ?>"><a href="<?php echo root_url()?>system/report"><i class="icon-list-alt"></i><span>REPORT</span> </a> </li>
+        <li class="<?php echo (strtolower($url[2])=="report") ? "active" : "" ?>"><a href="<?php echo root_url()?>system/report"><i class="icon-list-alt"></i><span>REPORT</span> </a> </li>
         <?php }?>
         <?php if ($_SESSION["user_data"]->User_position_id==2){?>
-          <li class="<?php echo (strtolower($url[3])=="reception") ? "active" : "" ?>"><a href="<?php echo root_url()?>system/reception"><i class="icon-sitemap"></i><span>RECEPTION</span> </a> </li>
+          <li class="<?php echo (strtolower($url[2])=="reception") ? "active" : "" ?>"><a href="<?php echo root_url()?>system/reception"><i class="icon-sitemap"></i><span>RECEPTION</span> </a> </li>
         <?php }?>
         <?php if ($_SESSION["user_data"]->User_position_id==3){?>
-        <li class="dropdown <?php echo (strtolower($url[3])=="laboratory") ? "active" : "" ?>"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-microscope  "></i><span>LABORATORY</span> <b class="caret"></b> </a> 
+        <li class="dropdown <?php echo (strtolower($url[2])=="laboratory") ? "active" : "" ?>"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="fa fa-microscope  "></i><span>LABORATORY</span> <b class="caret"></b> </a>
           <ul class="dropdown-menu">
             <li><a href="<?php echo root_url()?>system/laboratory/test-supply"><i class="fas fa-boxes"> </i> Test supply</a></li>
             <li><a href="<?php echo root_url()?>system/laboratory/transaction"><i class="fas fa-exchange-alt"></i> Transaction</a></li>
@@ -90,7 +90,7 @@
         </li>
         <?php }?>
         <?php if ($_SESSION["user_data"]->User_position_id==1){?>
-        <li class="dropdown <?php echo (strtolower($url[3])=="admin") ? "active" : "" ?>"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i ><span>ADMIN</span> <b class="caret"></b></a>
+        <li class="dropdown <?php echo (strtolower($url[2])=="admin") ? "active" : "" ?>"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i ><span>ADMIN</span> <b class="caret"></b></a>
         <?php }?>
           <ul class="dropdown-menu">
             <li><a href="<?php echo root_url()?>system/admin/user-management"><i class="icon-group"> </i>User management</a></li>

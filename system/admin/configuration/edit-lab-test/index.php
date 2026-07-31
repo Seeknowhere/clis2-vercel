@@ -1,6 +1,6 @@
-<?php 
-    include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/header-footer/data.php');
-    include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/admin/configuration/edit-lab-test/service.php');
+﻿<?php 
+    include_once(ROOT_PATH.'system/header-footer/data.php');
+    include_once(ROOT_PATH.'system/admin/configuration/edit-lab-test/service.php');
 ?>
 <?php 
     main_header();

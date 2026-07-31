@@ -1,6 +1,6 @@
-<?php
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/root/message.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/clis/system/laboratory/patient-records/patient-details/query.php');
+﻿<?php
+include_once(ROOT_PATH.'root/message.php');
+include_once(ROOT_PATH.'system/laboratory/patient-records/patient-details/query.php');
 
 $query = new query();
 
