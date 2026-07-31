@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
     include_once(ROOT_PATH.'root/header_footer.php');
 ?>
 <?php 

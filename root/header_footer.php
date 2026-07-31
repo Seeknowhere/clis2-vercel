@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	include_once(ROOT_PATH.'config.php');
 	
     function main_header(){

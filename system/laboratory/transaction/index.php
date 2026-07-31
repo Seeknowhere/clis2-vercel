@@ -1,4 +1,4 @@
-﻿  <?php 
+  <?php 
     include_once(ROOT_PATH.'system/header-footer/data.php');
     include_once(ROOT_PATH.'system/laboratory/transaction/service.php');
 ?>

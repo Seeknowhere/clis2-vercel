@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include_once(ROOT_PATH.'root/message.php');
 include_once(ROOT_PATH.'system/reception/patient-details/query.php');
 
