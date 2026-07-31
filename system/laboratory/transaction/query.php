@@ -34,20 +34,20 @@ class query{
 
     public function get_request_lab_transaction(){
         $query = $this->db->query("SELECT 
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction 
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=1 ORDER BY `Lab_transaction`.Mode_of_test_id ASC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction 
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=1 ORDER BY `lab_transaction`.Mode_of_test_id ASC ");
 
         if(!$query){
             return $this->db->error;
@@ -58,20 +58,20 @@ class query{
 
     public function get_ongoing_lab_transaction(){
         $query = $this->db->query("SELECT 
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction 
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=2 ORDER BY `Lab_transaction`.Mode_of_test_id ASC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction 
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=2 ORDER BY `lab_transaction`.Mode_of_test_id ASC ");
 
         if(!$query){
             return $this->db->error;
@@ -81,36 +81,36 @@ class query{
 
     public function get_release_lab_transaction(){
         // $query = $this->db->query("SELECT 
-        // `Lab_transaction`.ID AS Lab_transaction_id,
-        // `Lab_transaction`.*,
-        // `Lab_transaction_status`.*,
-        // `Lab_test`.*,
-        // `Patient`.*,
-        // `Mode_of_test`.*,
-        // `Lab_package_test`.*
-        // FROM Lab_transaction
-        // LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        // LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        // LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        // LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        // LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        // LEFT JOIN `Lab_test_template` ON `Lab_test_template`.Lab_transaction_id=`Lab_transaction`.ID
-        // WHERE `Lab_transaction`.Lab_transaction_status_id=3 GROUP BY Lab_transaction.Lab_test_id ORDER BY `Lab_transaction`.Mode_of_test_id ASC ");
+        // `lab_transaction`.ID AS Lab_transaction_id,
+        // `lab_transaction`.*,
+        // `lab_transaction_status`.*,
+        // `lab_test`.*,
+        // `patient`.*,
+        // `mode_of_test`.*,
+        // `lab_package_test`.*
+        // FROM lab_transaction
+        // LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        // LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        // LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        // LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        // LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        // LEFT JOIN `lab_test_template` ON `lab_test_template`.Lab_transaction_id=`lab_transaction`.ID
+        // WHERE `lab_transaction`.Lab_transaction_status_id=3 GROUP BY lab_transaction.Lab_test_id ORDER BY `lab_transaction`.Mode_of_test_id ASC ");
         $query = $this->db->query("SELECT 
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction 
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=3 ORDER BY `Lab_transaction`.Mode_of_test_id ASC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction 
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=3 ORDER BY `lab_transaction`.Mode_of_test_id ASC ");
         if(!$query){
             return $this->db->error;
         }
@@ -119,20 +119,20 @@ class query{
 
     public function get_pickup_lab_transaction(){
         $query = $this->db->query("SELECT 
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction 
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=4 ORDER BY `Lab_transaction`.Mode_of_test_id ASC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction 
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=4 ORDER BY `lab_transaction`.Mode_of_test_id ASC ");
 
         if(!$query){
             return $this->db->error;
@@ -143,11 +143,11 @@ class query{
     public function lab_test_template(){
 
         $query = $this->db->query("SELECT *
-        FROM Lab_transaction 
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        LEFT JOIN `Lab_test_template_config` ON `Lab_test_template_config`.Lab_test_id=`Lab_test`.ID
-        WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_test_template_config`.Show_field=1");
+        FROM lab_transaction 
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        LEFT JOIN `lab_test_template_config` ON `lab_test_template_config`.Lab_test_id=`lab_test`.ID
+        WHERE `lab_transaction`.ID='$this->Lab_transaction_id' AND `lab_test_template_config`.Show_field=1");
 
         if(!$query){
             return $this->db->error;
@@ -159,11 +159,11 @@ class query{
 
 
         $query = $this->db->query("SELECT *
-        FROM Lab_transaction 
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Lab_test_template` ON `Lab_transaction`.ID=`Lab_test_template`.Lab_transaction_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_test_template`.Lab_test_id
-        WHERE `Lab_transaction`.Patient_id='$this->Patient_id' AND `Lab_transaction`.Lab_test_id='$this->Lab_test_id' ");
+        FROM lab_transaction 
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `lab_test_template` ON `lab_transaction`.ID=`lab_test_template`.Lab_transaction_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_test_template`.Lab_test_id
+        WHERE `lab_transaction`.Patient_id='$this->Patient_id' AND `lab_transaction`.Lab_test_id='$this->Lab_test_id' ");
 
         if(!$query){
             return $this->db->error;
@@ -175,15 +175,15 @@ class query{
 
         $user = $_SESSION['user_data'];
 
-        $query = $this->db->query("UPDATE Lab_transaction SET Lab_transaction_status_id=2, Datetime_ongoing=now() 
-        WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_transaction`.Patient_id='$this->Patient_id'");
+        $query = $this->db->query("UPDATE lab_transaction SET Lab_transaction_status_id=2, Datetime_ongoing=now() 
+        WHERE `lab_transaction`.ID='$this->Lab_transaction_id' AND `lab_transaction`.Patient_id='$this->Patient_id'");
 
         if(!$query){
         return $this->db->error;
         }
 
         $query = $this->db->query(
-            "INSERT INTO User_transaction(
+            "INSERT INTO user_transaction(
                     Lab_transaction_id,
                     Lab_transaction_status_id, 
                     Patient_id, 
@@ -208,7 +208,7 @@ class query{
 
     public function get_template(){
         $query = $this->db->query("SELECT Json
-        FROM Lab_test_template");
+        FROM lab_test_template");
 
         if(!$query){
             return $this->db->error;
@@ -226,8 +226,8 @@ class query{
         // $new_json = $this->db->escape_string($this->Json);
 
         $query = $this->db->query("SELECT *
-        FROM Lab_test_template 
-        WHERE `Lab_test_template`.Lab_test_id='$this->Lab_test_id' AND `Lab_test_template`.Lab_transaction_id='$this->Lab_transaction_id' ");
+        FROM lab_test_template 
+        WHERE `lab_test_template`.Lab_test_id='$this->Lab_test_id' AND `lab_test_template`.Lab_transaction_id='$this->Lab_transaction_id' ");
 
         $query = $this->fetch_all($query);
         
@@ -244,9 +244,9 @@ class query{
 
             // var_dump($data->value);
 
-            $query = $this->db->query("UPDATE Lab_test_template 
+            $query = $this->db->query("UPDATE lab_test_template 
             SET Value='$data->value'
-            WHERE `Lab_test_template`.Lab_transaction_id=$this->Lab_transaction_id AND `Lab_test_template`.Coordinate='$data->coordinate'");
+            WHERE `lab_test_template`.Lab_transaction_id=$this->Lab_transaction_id AND `lab_test_template`.Coordinate='$data->coordinate'");
             if(!$query){
                 return $this->db->error;
             }
@@ -259,15 +259,15 @@ class query{
         }
 
 
-        $query = $this->db->query("UPDATE Lab_transaction SET Lab_transaction_status_id=3, Datetime_release=now() 
-        WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_transaction`.Patient_id='$this->Patient_id'");
+        $query = $this->db->query("UPDATE lab_transaction SET Lab_transaction_status_id=3, Datetime_release=now() 
+        WHERE `lab_transaction`.ID='$this->Lab_transaction_id' AND `lab_transaction`.Patient_id='$this->Patient_id'");
       
         if(!$query){
             return $this->db->error;
         }
 
         $query = $this->db->query(
-            "INSERT INTO User_transaction(
+            "INSERT INTO user_transaction(
                     Lab_transaction_id,
                     Lab_transaction_status_id, 
                     Patient_id, 
@@ -298,26 +298,26 @@ class query{
 
         // $user = $_SESSION['user_data'];
         
-        // $query = $this->db->query("UPDATE Lab_transaction SET Lab_transaction_status_id=4, Datetime_pickup=now()
-        // WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_transaction`.Patient_id='$this->Patient_id'");
+        // $query = $this->db->query("UPDATE lab_transaction SET Lab_transaction_status_id=4, Datetime_pickup=now()
+        // WHERE `lab_transaction`.ID='$this->Lab_transaction_id' AND `lab_transaction`.Patient_id='$this->Patient_id'");
 
         // $query = $this->db->query("SELECT 
-        // Lab_test.Abbreviation,
-        // Lab_test.Description,
-        // Patient.Email_address, 
-        // Lab_test_template.Json
-        // FROM Lab_transaction 
-        // LEFT JOIN `Patient` ON `Lab_transaction`.Patient_id=`Patient`.ID
-        // LEFT JOIN `Lab_test` ON `Lab_transaction`.Lab_test_id=`Lab_test`.ID
-        // LEFT JOIN `Lab_test_template` ON `Lab_transaction`.ID=`Lab_test_template`.Lab_transaction_id
-        // WHERE `Lab_transaction`.Patient_id='$this->Patient_id' AND `Lab_transaction`.Lab_test_id='$this->Lab_test_id' ");
+        // lab_test.Abbreviation,
+        // lab_test.Description,
+        // patient.Email_address, 
+        // lab_test_template.Json
+        // FROM lab_transaction 
+        // LEFT JOIN `patient` ON `lab_transaction`.Patient_id=`patient`.ID
+        // LEFT JOIN `lab_test` ON `lab_transaction`.Lab_test_id=`lab_test`.ID
+        // LEFT JOIN `lab_test_template` ON `lab_transaction`.ID=`lab_test_template`.Lab_transaction_id
+        // WHERE `lab_transaction`.Patient_id='$this->Patient_id' AND `lab_transaction`.Lab_test_id='$this->Lab_test_id' ");
 
         // if(!$query){
         //     return $this->db->error;
         // }
 
         // $query_transaction = $this->db->query(
-        //     "INSERT INTO User_transaction(
+        //     "INSERT INTO user_transaction(
         //             Lab_transaction_id,
         //             Lab_transaction_status_id, 
         //             Patient_id, 
@@ -339,18 +339,18 @@ class query{
         // return $this->first_row($query);
         // $user = $_SESSION['user_data'];
  
-        // // $query = $this->db->query("UPDATE Lab_transaction SET Lab_transaction_status_id=4, Datetime_ongoing=now() 
-        // // WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_transaction`.Patient_id='$this->Patient_id'");
+        // // $query = $this->db->query("UPDATE lab_transaction SET Lab_transaction_status_id=4, Datetime_ongoing=now() 
+        // // WHERE `lab_transaction`.ID='$this->Lab_transaction_id' AND `lab_transaction`.Patient_id='$this->Patient_id'");
 
         // $query = $this->db->query("SELECT *
-        // FROM Lab_test 
-        // LEFT JOIN `Lab_test_template` ON `Lab_test_template`.Lab_test_id=`Lab_test`.ID
-        // WHERE `Lab_test_template`.Lab_transaction_id='$this->Lab_transaction_id' 
-        // AND `Lab_test_template`.Lab_test_id='$this->Lab_test_id'");
+        // FROM lab_test 
+        // LEFT JOIN `lab_test_template` ON `lab_test_template`.Lab_test_id=`lab_test`.ID
+        // WHERE `lab_test_template`.Lab_transaction_id='$this->Lab_transaction_id' 
+        // AND `lab_test_template`.Lab_test_id='$this->Lab_test_id'");
 
         // // user logs
         // // $query_transaction = $this->db->query(
-        // //     "INSERT INTO User_transaction(
+        // //     "INSERT INTO user_transaction(
         // //             Lab_transaction_id,
         // //             Lab_transaction_status_id, 
         // //             Patient_id, 
@@ -373,23 +373,23 @@ class query{
 
         $user = $_SESSION['user_data'];
         
-        $query = $this->db->query("UPDATE Lab_transaction SET Lab_transaction_status_id=4, Datetime_pickup=now()
-        WHERE `Lab_transaction`.ID='$this->Lab_transaction_id' AND `Lab_transaction`.Patient_id='$this->Patient_id'");
+        $query = $this->db->query("UPDATE lab_transaction SET Lab_transaction_status_id=4, Datetime_pickup=now()
+        WHERE `lab_transaction`.ID='$this->Lab_transaction_id' AND `lab_transaction`.Patient_id='$this->Patient_id'");
 
         $query = $this->db->query("SELECT *
-        FROM Lab_test 
-        LEFT JOIN `Lab_test_template` ON `Lab_test_template`.Lab_test_id=`Lab_test`.ID
-        LEFT JOIN `Lab_transaction` ON `Lab_transaction`.ID=`Lab_test_template`.Lab_transaction_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        WHERE `Lab_test_template`.Lab_transaction_id='$this->Lab_transaction_id' 
-        AND `Lab_test_template`.Lab_test_id='$this->Lab_test_id'");
+        FROM lab_test 
+        LEFT JOIN `lab_test_template` ON `lab_test_template`.Lab_test_id=`lab_test`.ID
+        LEFT JOIN `lab_transaction` ON `lab_transaction`.ID=`lab_test_template`.Lab_transaction_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        WHERE `lab_test_template`.Lab_transaction_id='$this->Lab_transaction_id' 
+        AND `lab_test_template`.Lab_test_id='$this->Lab_test_id'");
 
         if(!$query){
             return $this->db->error;
         }
 
         $query_transaction = $this->db->query(
-            "INSERT INTO User_transaction(
+            "INSERT INTO user_transaction(
                     Lab_transaction_id,
                     Lab_transaction_status_id, 
                     Patient_id, 
@@ -426,8 +426,8 @@ class query{
         $query = null;
         $encrypted_password = md5($this->User_password);
         $query1 = $this->db->query(
-            "SELECT * FROM `User_account`
-            WHERE `User_account`.Username='$this->User_username' AND `User_account`.Password='$encrypted_password' AND Active = 1 AND User_position_id = 1"
+            "SELECT * FROM `user_account`
+            WHERE `user_account`.Username='$this->User_username' AND `user_account`.Password='$encrypted_password' AND Active = 1 AND User_position_id = 1"
             );
 
         if(!$query1){
@@ -436,18 +436,18 @@ class query{
 
         if(mysqli_num_rows($query1)){
             if($this->Lab_transaction_status_id==1){
-                $query = $this->db->query("UPDATE Lab_transaction 
+                $query = $this->db->query("UPDATE lab_transaction 
                 SET Lab_transaction_status_id=$this->Lab_transaction_status_id, Datetime_ongoing=null
                 WHERE 
-                `Lab_transaction`.ID='$this->Lab_transaction_id' AND 
-                `Lab_transaction`.Patient_id='$this->Patient_id'");
+                `lab_transaction`.ID='$this->Lab_transaction_id' AND 
+                `lab_transaction`.Patient_id='$this->Patient_id'");
             }
             else if ($this->Lab_transaction_status_id==2){
-                $query = $this->db->query("UPDATE Lab_transaction 
+                $query = $this->db->query("UPDATE lab_transaction 
                 SET Lab_transaction_status_id=$this->Lab_transaction_status_id, Datetime_release=null
                 WHERE 
-                `Lab_transaction`.ID='$this->Lab_transaction_id' AND 
-                `Lab_transaction`.Patient_id='$this->Patient_id'");
+                `lab_transaction`.ID='$this->Lab_transaction_id' AND 
+                `lab_transaction`.Patient_id='$this->Patient_id'");
             }
         }else{
             return array('error'=>true, 'message' => NOT_AUTHORIZE);

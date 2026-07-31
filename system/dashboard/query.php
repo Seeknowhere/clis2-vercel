@@ -23,20 +23,20 @@ class query{
 
     public function get_request_lab_transaction(){
         $query = $this->db->query("SELECT
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=1 ORDER BY `Lab_transaction`.Mode_of_test_id DESC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=1 ORDER BY `lab_transaction`.Mode_of_test_id DESC ");
 
         if(!$query){
             return $this->db->error;
@@ -47,20 +47,20 @@ class query{
 
     public function get_ongoing_lab_transaction(){
         $query = $this->db->query("SELECT
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=2 ORDER BY `Lab_transaction`.Mode_of_test_id DESC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=2 ORDER BY `lab_transaction`.Mode_of_test_id DESC ");
 
         if(!$query){
             return $this->db->error;
@@ -70,20 +70,20 @@ class query{
 
     public function get_release_lab_transaction(){
         $query = $this->db->query("SELECT
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=3 ORDER BY `Lab_transaction`.Mode_of_test_id DESC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=3 ORDER BY `lab_transaction`.Mode_of_test_id DESC ");
 
         if(!$query){
             return $this->db->error;
@@ -93,20 +93,20 @@ class query{
 
     public function get_pickup_lab_transaction(){
         $query = $this->db->query("SELECT
-        `Lab_transaction`.ID AS Lab_transaction_id,
-        `Lab_transaction`.*,
-        `Lab_transaction_status`.*,
-        `Lab_test`.*,
-        `Patient`.*,
-        `Mode_of_test`.*,
-        `Lab_package_test`.*
-        FROM Lab_transaction
-        LEFT JOIN `Lab_package_test` ON `Lab_package_test`.ID=`Lab_transaction`.Lab_package_test_id
-        LEFT JOIN `Patient` ON `Patient`.ID=`Lab_transaction`.Patient_id
-        LEFT JOIN `Mode_of_test` ON `Mode_of_test`.ID=`Lab_transaction`.Mode_of_test_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_status`.ID=`Lab_transaction`.Lab_transaction_status_id
-        LEFT JOIN `Lab_test` ON `Lab_test`.ID=`Lab_transaction`.Lab_test_id
-        WHERE `Lab_transaction`.Lab_transaction_status_id=4 ORDER BY `Lab_transaction`.Mode_of_test_id DESC ");
+        `lab_transaction`.ID AS Lab_transaction_id,
+        `lab_transaction`.*,
+        `lab_transaction_status`.*,
+        `lab_test`.*,
+        `patient`.*,
+        `mode_of_test`.*,
+        `lab_package_test`.*
+        FROM lab_transaction
+        LEFT JOIN `lab_package_test` ON `lab_package_test`.ID=`lab_transaction`.Lab_package_test_id
+        LEFT JOIN `patient` ON `patient`.ID=`lab_transaction`.Patient_id
+        LEFT JOIN `mode_of_test` ON `mode_of_test`.ID=`lab_transaction`.Mode_of_test_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_status`.ID=`lab_transaction`.Lab_transaction_status_id
+        LEFT JOIN `lab_test` ON `lab_test`.ID=`lab_transaction`.Lab_test_id
+        WHERE `lab_transaction`.Lab_transaction_status_id=4 ORDER BY `lab_transaction`.Mode_of_test_id DESC ");
 
         if(!$query){
             return $this->db->error;
@@ -128,27 +128,27 @@ class query{
 
         $query = $this->db->query(
             "SELECT
-            Lab_test.ID,
-            Lab_test.Abbreviation,
-            Lab_test.Description,
-            Lab_test.Price,
-            Lab_transaction.Datetime_request
-            FROM Lab_transaction
-            LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
+            lab_test.ID,
+            lab_test.Abbreviation,
+            lab_test.Description,
+            lab_test.Price,
+            lab_transaction.Datetime_request
+            FROM lab_transaction
+            LEFT JOIN lab_test ON lab_test.ID=lab_transaction.Lab_test_id
             WHERE Mode_of_test_id=1
-            AND DATE(Lab_transaction.Datetime_request) >= '$from'
-						AND DATE(Lab_transaction.Datetime_request) <= '$to'
+            AND DATE(lab_transaction.Datetime_request) >= '$from'
+						AND DATE(lab_transaction.Datetime_request) <= '$to'
             GROUP BY Lab_test_id");
 
         // $query = $this->db->query(
         //     "SELECT
-        //     Lab_test.ID,
-        //     Lab_test.Abbreviation,
-        //     Lab_test.Description,
-        //     Lab_test.Cost,
-        //     Lab_transaction.Datetime_request
-        //     FROM Lab_transaction
-        //     LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
+        //     lab_test.ID,
+        //     lab_test.Abbreviation,
+        //     lab_test.Description,
+        //     lab_test.Cost,
+        //     lab_transaction.Datetime_request
+        //     FROM lab_transaction
+        //     LEFT JOIN lab_test ON lab_test.ID=lab_transaction.Lab_test_id
         //     WHERE Mode_of_test_id=1 GROUP BY Lab_test_id");
 
         if(!$query){
@@ -173,10 +173,10 @@ class query{
 
         $query = $this->db->query(
             "SELECT
-            Lab_test.ID,
-            Lab_test.Price
-            FROM Lab_transaction
-            LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
+            lab_test.ID,
+            lab_test.Price
+            FROM lab_transaction
+            LEFT JOIN lab_test ON lab_test.ID=lab_transaction.Lab_test_id
             WHERE Mode_of_test_id=1 AND Lab_test_id='$id'");
 
         $query = $this->fetch_all($query);

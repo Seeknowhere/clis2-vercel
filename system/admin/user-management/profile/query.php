@@ -37,7 +37,7 @@ class query{
     public function get_position(){
 
 
-        $query = $this->db->query("SELECT * FROM User_position ");
+        $query = $this->db->query("SELECT * FROM user_position ");
 
         if(!$query){
             return $this->db->error;
@@ -49,7 +49,7 @@ class query{
 
     public function get_user($id){
 
-        $query = $this->db->query("SELECT * FROM User_account WHERE ID = '$id' ");
+        $query = $this->db->query("SELECT * FROM user_account WHERE ID = '$id' ");
 
         if(!$query){
             return $this->db->error;
@@ -72,7 +72,7 @@ class query{
              return array('error'=>true, 'message' => REQUIRED_FIELD);
          }
  
-         $query = $this->db->query("UPDATE User_account 
+         $query = $this->db->query("UPDATE user_account 
             SET
             User_position_id='$this->User_position_id',
             First_name='$this->User_first_name',
@@ -81,7 +81,7 @@ class query{
             Date_of_birth='$this->User_date_of_birth',
             Sex='$this->User_sex',
             Phone_number='$this->User_phone_number'
-            WHERE `User_account`.ID='$this->User_ID'
+            WHERE `user_account`.ID='$this->User_ID'
             ");
          if(!$query){
              return $this->db->error;
@@ -103,11 +103,11 @@ class query{
 
         $this->User_status = ($this->User_status=="ACTIVE") ? 0 : 1;
 
-        $query = $this->db->query("UPDATE User_account 
+        $query = $this->db->query("UPDATE user_account 
         SET
         Active='$this->User_status',
         Datetime_deactivated=now()
-        WHERE `User_account`.ID='$this->User_ID'
+        WHERE `user_account`.ID='$this->User_ID'
         ");
         
     if(!$query){
@@ -124,10 +124,10 @@ class query{
             return array('error'=>true, 'message' => REQUIRED_FIELD);
         } 
 
-        $query = $this->db->query("UPDATE User_account 
+        $query = $this->db->query("UPDATE user_account 
         SET
         Image_file='$this->Image_file'
-        WHERE `User_account`.ID='$this->User_ID'
+        WHERE `user_account`.ID='$this->User_ID'
         ");
 
         if(!$query){

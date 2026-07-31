@@ -38,7 +38,7 @@ class query{
     public function get_position(){
 
 
-        $query = $this->db->query("SELECT * FROM User_position ");
+        $query = $this->db->query("SELECT * FROM user_position ");
 
         if(!$query){
             return $this->db->error;
@@ -53,12 +53,12 @@ class query{
         // var_dump($id);
 
         $query = $this->db->query("SELECT 
-        Lab_transaction.ID AS lab_id,
-        Lab_test.Abbreviation, 
-        Lab_test.ID
-        FROM Lab_transaction 
-        LEFT JOIN `Lab_test` ON `Lab_transaction`.Lab_test_id=`Lab_test`.ID
-        WHERE Lab_transaction.Patient_id = '$id' "
+        lab_transaction.ID AS lab_id,
+        lab_test.Abbreviation, 
+        lab_test.ID
+        FROM lab_transaction 
+        LEFT JOIN `lab_test` ON `lab_transaction`.Lab_test_id=`lab_test`.ID
+        WHERE lab_transaction.Patient_id = '$id' "
         );
 
         if(!$query){
@@ -77,11 +77,11 @@ class query{
         $lab_transact_id = $split[1];
 
         $query = $this->db->query("SELECT *
-        FROM Lab_transaction 
-        LEFT JOIN `Lab_test` ON `Lab_transaction`.Lab_test_id=`Lab_test`.ID
-        LEFT JOIN `Lab_test_template` ON `Lab_transaction`.ID=`Lab_test_template`.Lab_transaction_id
-        WHERE Lab_transaction.Patient_id = '$this->Patient_id' 
-        AND Lab_transaction.ID = '$lab_transact_id' AND Lab_transaction.Lab_test_id = '$lab_id'  "
+        FROM lab_transaction 
+        LEFT JOIN `lab_test` ON `lab_transaction`.Lab_test_id=`lab_test`.ID
+        LEFT JOIN `lab_test_template` ON `lab_transaction`.ID=`lab_test_template`.Lab_transaction_id
+        WHERE lab_transaction.Patient_id = '$this->Patient_id' 
+        AND lab_transaction.ID = '$lab_transact_id' AND lab_transaction.Lab_test_id = '$lab_id'  "
         );
 
         if(!$query){
@@ -94,7 +94,7 @@ class query{
 
     public function get_patient_record($id){
 
-        $query = $this->db->query("SELECT * FROM Patient WHERE ID = '$id' ");
+        $query = $this->db->query("SELECT * FROM patient WHERE ID = '$id' ");
 
         if(!$query){
             return $this->db->error;
@@ -107,13 +107,13 @@ class query{
     public function get_patient_medical_history($id){
 
         $query = $this->db->query("SELECT * 
-        FROM Lab_transaction 
-        LEFT JOIN `Lab_test` ON `Lab_transaction`.Lab_test_id=`Lab_test`.ID
-        LEFT JOIN `Mode_of_test` ON `Lab_transaction`.Mode_of_test_id=`Mode_of_test`.ID
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction`.Lab_transaction_status_id=`Lab_transaction_status`.ID
-        LEFT JOIN `Lab_test_template` ON `Lab_transaction`.ID=`Lab_test_template`.Lab_transaction_id
+        FROM lab_transaction 
+        LEFT JOIN `lab_test` ON `lab_transaction`.Lab_test_id=`lab_test`.ID
+        LEFT JOIN `mode_of_test` ON `lab_transaction`.Mode_of_test_id=`mode_of_test`.ID
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction`.Lab_transaction_status_id=`lab_transaction_status`.ID
+        LEFT JOIN `lab_test_template` ON `lab_transaction`.ID=`lab_test_template`.Lab_transaction_id
        
-        WHERE Lab_transaction.Patient_id = '$id' GROUP BY  `Lab_transaction`.Lab_test_id"
+        WHERE lab_transaction.Patient_id = '$id' GROUP BY  `lab_transaction`.Lab_test_id"
         );
 
         if(!$query){
@@ -126,14 +126,14 @@ class query{
     public function get_patient_transaction_logs($id){
         
         $query = $this->db->query("SELECT * 
-        FROM User_transaction 
-        LEFT JOIN `Lab_transaction` ON `Lab_transaction`.ID=`User_transaction`.Lab_transaction_id
-        LEFT JOIN `User_account` ON `User_account`.ID=`User_transaction`.User_account_id
-        LEFT JOIN `User_position` ON `User_position`.ID=`User_account`.User_position_id
-        LEFT JOIN `Lab_test` ON `Lab_transaction`.Lab_test_id=`Lab_test`.ID
-        LEFT JOIN `Mode_of_test` ON `Lab_transaction`.Mode_of_test_id=`Mode_of_test`.ID
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction`.Lab_transaction_status_id=`Lab_transaction_status`.ID
-        WHERE Lab_transaction.Patient_id = '$id' "
+        FROM user_transaction 
+        LEFT JOIN `lab_transaction` ON `lab_transaction`.ID=`user_transaction`.Lab_transaction_id
+        LEFT JOIN `user_account` ON `user_account`.ID=`user_transaction`.User_account_id
+        LEFT JOIN `user_position` ON `user_position`.ID=`user_account`.User_position_id
+        LEFT JOIN `lab_test` ON `lab_transaction`.Lab_test_id=`lab_test`.ID
+        LEFT JOIN `mode_of_test` ON `lab_transaction`.Mode_of_test_id=`mode_of_test`.ID
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction`.Lab_transaction_status_id=`lab_transaction_status`.ID
+        WHERE lab_transaction.Patient_id = '$id' "
         );
 
         if(!$query){
@@ -146,10 +146,10 @@ class query{
     public function get_patient_sent_out_logs($id){
         
         $query = $this->db->query("SELECT * 
-        FROM Lab_transaction_sent_out 
-        LEFT JOIN `User_account` ON `User_account`.ID=`Lab_transaction_sent_out`.User_id
-        LEFT JOIN `Lab_transaction_status` ON `Lab_transaction_sent_out`.Lab_transaction_status_id=`Lab_transaction_status`.ID
-        WHERE Lab_transaction_sent_out.Patient_id = '$id' "
+        FROM lab_transaction_sent_out 
+        LEFT JOIN `user_account` ON `user_account`.ID=`lab_transaction_sent_out`.User_id
+        LEFT JOIN `lab_transaction_status` ON `lab_transaction_sent_out`.Lab_transaction_status_id=`lab_transaction_status`.ID
+        WHERE lab_transaction_sent_out.Patient_id = '$id' "
         );
 
         if(!$query){
@@ -173,7 +173,7 @@ class query{
              return array('error'=>true, 'message' => REQUIRED_FIELD);
          }
  
-         $query = $this->db->query("UPDATE Patient 
+         $query = $this->db->query("UPDATE patient 
             SET
             First_name='$this->Patient_first_name',
             Middle_name='$this->Patient_middle_name',
@@ -182,7 +182,7 @@ class query{
             Sex='$this->Patient_sex',
             Phone_number='$this->Patient_phone_number',
             Email_address='$this->Patient_email_address'
-            WHERE `Patient`.ID='$this->Patient_ID'
+            WHERE `patient`.ID='$this->Patient_ID'
             ");
          if(!$query){
              return $this->db->error;

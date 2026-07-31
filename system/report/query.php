@@ -29,7 +29,7 @@ class query{
     public function get_lab_transaction_single_test(){
 
 
-        $query = $this->db->query("SELECT * FROM Lab_test ");
+        $query = $this->db->query("SELECT * FROM lab_test ");
 
         if(!$query){
             return $this->db->error;
@@ -44,7 +44,7 @@ class query{
 
         $query = $this->db->query(
             "SELECT * 
-            FROM Lab_test ");
+            FROM lab_test ");
     
             if(!$query){
                 return $this->db->error;
@@ -64,27 +64,27 @@ class query{
 
             $query = $this->db->query(
                 "SELECT 
-                Lab_test.ID,
-                Lab_test.Abbreviation,
-                Lab_test.Price,
-                Lab_transaction.Datetime_request
-                FROM Lab_transaction
-                LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
+                lab_test.ID,
+                lab_test.Abbreviation,
+                lab_test.Price,
+                lab_transaction.Datetime_request
+                FROM lab_transaction
+                LEFT JOIN lab_test ON lab_test.ID=lab_transaction.Lab_test_id
                 WHERE Mode_of_test_id=1 
-                AND DATE(Lab_transaction.Datetime_request) >= '$from' 
-                AND DATE(Lab_transaction.Datetime_request) <= '$to' GROUP BY Lab_test_id");
+                AND DATE(lab_transaction.Datetime_request) >= '$from' 
+                AND DATE(lab_transaction.Datetime_request) <= '$to' GROUP BY Lab_test_id");
 
         }else{
 
             $query = $this->db->query(
                 "SELECT 
-                Lab_test.ID,
-                Lab_test.Abbreviation,
-                Lab_test.Price,
-                Lab_transaction.Datetime_request 
-                FROM Lab_transaction
-                LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
-                WHERE Mode_of_test_id=1 AND Lab_test_id='$this->Lab_test_single_id' AND Lab_transaction.Datetime_request
+                lab_test.ID,
+                lab_test.Abbreviation,
+                lab_test.Price,
+                lab_transaction.Datetime_request 
+                FROM lab_transaction
+                LEFT JOIN lab_test ON lab_test.ID=lab_transaction.Lab_test_id
+                WHERE Mode_of_test_id=1 AND Lab_test_id='$this->Lab_test_single_id' AND lab_transaction.Datetime_request
                 BETWEEN '$this->Date_from' AND '$this->Date_to'GROUP BY Lab_test_id"  );
         }
 
@@ -109,10 +109,10 @@ class query{
 
         $query = $this->db->query(
             "SELECT 
-            Lab_test.ID,
-            Lab_test.Price
-            FROM Lab_transaction
-            LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
+            lab_test.ID,
+            lab_test.Price
+            FROM lab_transaction
+            LEFT JOIN lab_test ON lab_test.ID=lab_transaction.Lab_test_id
             WHERE Mode_of_test_id=1 AND Lab_test_id='$id'"
             );
 
@@ -135,11 +135,11 @@ class query{
 
         $query = $this->db->query(
             "SELECT 
-            Lab_test.ID,
-            Lab_test.Price
-            FROM Lab_transaction
-            LEFT JOIN Lab_test ON Lab_test.ID=Lab_transaction.Lab_test_id
-            WHERE Mode_of_test_id=1 AND Lab_test_id='$id' GROUP BY Lab_transaction.Transaction_number"
+            lab_test.ID,
+            lab_test.Price
+            FROM lab_transaction
+            LEFT JOIN lab_test ON lab_test.ID=lab_transaction.Lab_test_id
+            WHERE Mode_of_test_id=1 AND Lab_test_id='$id' GROUP BY lab_transaction.Transaction_number"
             );
 
         $query = $this->fetch_all($query);

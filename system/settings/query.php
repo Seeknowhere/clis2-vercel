@@ -38,7 +38,7 @@ class query{
             return array('error'=>true, 'message' => REQUIRED_FIELD);
         }
 
-        $query = $this->db->query("SELECT * FROM User_account WHERE `User_account`.ID='$this->User_account_id' ");
+        $query = $this->db->query("SELECT * FROM user_account WHERE `user_account`.ID='$this->User_account_id' ");
 
         if(!$query){
             return $this->db->error;
@@ -61,8 +61,8 @@ class query{
         }
 
   
-        $query = $this->db->query("UPDATE User_account SET Password='$new_password' 
-        WHERE `User_account`.ID='$this->User_account_id'");
+        $query = $this->db->query("UPDATE user_account SET Password='$new_password' 
+        WHERE `user_account`.ID='$this->User_account_id'");
       
         if(!$query){
         return $this->db->error;

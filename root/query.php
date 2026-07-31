@@ -36,9 +36,9 @@ class query{
         
 
         $query1 = $this->db->query(
-            "SELECT * FROM `User_account`
-            LEFT JOIN User_position ON User_position.ID=User_account.User_position_id
-            WHERE `User_account`.Username='$this->Username' AND `User_account`.Password='$encrypted_password' AND Active = 1 ");
+            "SELECT * FROM `user_account`
+            LEFT JOIN user_position ON user_position.ID=user_account.User_position_id
+            WHERE `user_account`.Username='$this->Username' AND `user_account`.Password='$encrypted_password' AND Active = 1 ");
 
         if(!$query1){
             return $this->db->error;
