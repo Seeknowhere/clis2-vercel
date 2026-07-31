@@ -16,6 +16,13 @@
 // those calls always succeed regardless of where such whitespace hides.
 ob_start();
 
+// This codebase was written for PHP 7.4; the Vercel runtime is PHP
+// 8.5. Deprecation/notice-level warnings (e.g. dynamic property
+// creation) are expected from that gap and would otherwise get
+// printed into JSON API responses, corrupting them for the frontend's
+// JSON parser. Real errors/warnings still show for debugging.
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
+
 define('ROOT_PATH', dirname(__DIR__) . '/');
 
 // Keep old code that still reads DOCUMENT_ROOT (e.g. vendor libs) working.
