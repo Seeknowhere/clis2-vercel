@@ -4,6 +4,7 @@ class config{
 	private $username;
 	private $pass;
 	private $db;
+	private $port;
 	private $conn = null;
 
 	public function __construct(){
@@ -13,8 +14,9 @@ class config{
 		$this->username = getenv('DB_USER') ?: 'root';
 		$this->pass = getenv('DB_PASS') ?: '';
 		$this->db = getenv('DB_NAME') ?: 'clis_db';
+		$this->port = getenv('DB_PORT') ?: 3306;
 
-		$this->conn = new mysqli($this->server, $this->username, $this->pass, $this->db);
+		$this->conn = new mysqli($this->server, $this->username, $this->pass, $this->db, $this->port);
 		date_default_timezone_set('Asia/Manila');
     }
 
