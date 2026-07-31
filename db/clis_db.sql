@@ -732,7 +732,7 @@ ALTER TABLE `patient`
 -- Indexes for table `user_account`
 --
 ALTER TABLE `user_account`
-  ADD PRIMARY KEY (`ID`,`First_name`),
+  ADD PRIMARY KEY (`ID`),
   ADD KEY `User_position_id` (`User_position_id`);
 
 --
